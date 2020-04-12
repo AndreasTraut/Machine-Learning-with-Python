@@ -7,6 +7,48 @@ Kapitel 2
 
 @author: andre
 """
+#%% #######################################################################
+# 1. create index:    
+	# 1.1 Alternative 1: generate id with static data
+	# 1.2 Alternative 2: generate stratified sampling
+	# 1.3 verify if stratified example is good
+
+# 2. Discover and visualize the data to gain insights
+
+# 3. prepare for Machine Learning
+	# 3.1 find all NULL-values
+	# 3.2 remove all NULL-values
+
+# 4. Use "Imputer" to clean NaNs
+
+# 5. treat "categorial" inputs
+
+# 6. custom transformer and pipelines
+	# 6.1 custom transformer
+	# 6.2 pipelines
+
+# 7. select and train model
+	# 7.1 LinearRegression model
+	# 7.2 DecisionTreeRegressor model
+
+# 8. crossvalidation 
+	# 8.1 for DecisionTreeRegressor
+	# 8.2 for LinearRegression
+	# 8.3 for RandomForestRegressor
+	# 8.4 for ExtraTreesRegressor
+
+# 9. Save Model
+
+# 10. Optimize Model
+	# 10.1 GridSearchCV
+		# 10.1.1 GridSearchCV on RandomForestRegressor
+		# 10.1.2 GridSearchCV on LinearRegressor
+	# 10.2 Randomized Search
+	# 10.3 Analyze best models
+
+# 11. Evaluate final model on test dataset
+#%% #######################################################################
+
 # To support both python 2 and python 3
 from __future__ import division, print_function, unicode_literals
 
@@ -130,7 +172,8 @@ for train_index, test_index in split.split(housing, housing["income_cat"]):
 strat_test_set["income_cat"].value_counts() / len(strat_test_set)
 housing["income_cat"].value_counts() / len(housing)
 
-#%% verify if stratified example is good  In[29]
+#%% 
+# 1.3 verify if stratified example is good  In[29]
 def income_cat_proportions(data):
     return data["income_cat"].value_counts() / len(data)
 
@@ -219,7 +262,7 @@ print("sample_incomplete_rows\n", sample_incomplete_rows)
 
 #%% #######################################################################
 #%% 
-# 4. Use "Imputer" In[57]:
+# 4. Use "Imputer" to clean NaNs  #In[57]:
 print("\n\n 4. Use Imputer In[57]: \n")
     
 try:
@@ -349,7 +392,8 @@ housing_predictions = lin_reg.predict(housing_prepared)
 lin_mse = mean_squared_error(housing_labels, housing_predictions)
 lin_rmse = np.sqrt(lin_mse)
 print("lin_rmse\n", lin_rmse)
-#%% 7.2 DecisionTreeRegressor model
+#%% 
+# 7.2 DecisionTreeRegressor model
 print("7.2 DecisionTreeRegressor model\n")
 # from sklearn.tree import DecisionTreeRegressor
 tree_reg = DecisionTreeRegressor(random_state=42)
@@ -437,6 +481,10 @@ my_model_loaded = joblib.load("forest_reg.pkl")
 #%% 
 # 10. Optimize Model # In[98]
 print("\n\n 10. Optimize Model # In[98]\n")
+
+# 10.1 GridSearchCV
+print("\n 10.1 GridSearchCV on RandomForestRegressor\n")
+
 
 #%%
 # 10.1.1 GridSearchCV on RandomForestRegressor
