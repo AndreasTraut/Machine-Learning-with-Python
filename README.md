@@ -1,7 +1,15 @@
-# Machine-Learning-with-Python
+# Machine Learning with Python
 After having learnt some visualization techniques (which I showed in my repository "Visualization-of-Data-with-Python", https://github.com/AndreasTraut/Visualization-of-Data-with-Python) I started working on different datasets with the aim to apply machine learning techniques. In this example I will show some machine learning examples.
 
-...more in a few days...
+## 1. Movies Database Example
+
+In this example I want to predict the "Revenue" based on the other information, which I have for each movie (year, scoring, ...). For more see here: 
+
+https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning.ipynb
+
+## 2. Step-by-step Python-Code for Machine Learning
+
+Based on Chapter 2 of Geron "Machine Learning with Scikit-Learn & Tensorflow": 
 
  1. create index:    
 	 1.1 Alternative 1: generate id with static data
