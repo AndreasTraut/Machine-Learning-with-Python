@@ -3,11 +3,17 @@ After having learnt some visualization techniques (which I showed in my reposito
 
 ## 1. Movies Database Example
 
-In this example I want to predict the "Revenue" based on the other information, which I have for each movie (year, scoring, ...). I used a dataset which contains the following columns:
+A good starting point for finding useful datasets is "Kaggle" (www.kaggle.com). I downloaded the following movies dataset: 
 
-Rank | Title | Year | Score | Metascore | Genre | Vote | Director | Runtime | Revenue | Description | RevCat
+https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118
 
-My aim was to predict the Revenue based on the other information. There are some "NaN"-values in the column "Revenue" and instead of filling them with an assumption (e.g. median-value) as I did in another Jupiter-Notebook, I wanted to predict these values. Therefore I did the following:
+The dataset from Kaggle contains the following columns:
+
+Rank | Title | Year | Score | Metascore | Genre | Vote | Director | Runtime | **Revenue** | Description | RevCat
+
+In this example I want to predict the **"Revenue"** based on the other information, which I have for each movie (e.g. every movie has a year, a scoring, a title ...). There are some "NaN"-values in the column "Revenue" and instead of filling them with an assumption (e.g. median-value) as I did in another Jupiter-Notebook (see here https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning%20-%20StratifiedSample.ipynb), I wanted to predict these values. 
+
+Therefore I did the following:
 - I separated the rows with "NaN"-values in column "Revenue"
 - I drew a stratified sample (based on "Revenue") on this remaining dataset and I received a training dataset and testing dataset:
 
@@ -19,12 +25,14 @@ My aim was to predict the Revenue based on the other information. There are some
 - did a prediction on a subset of the testing dataset and did a side-by-side comparison of prediction and true value
 - performed a prediction on the testing dataset and calculated the mean-squared error
 
-For more information see here:
+Please find the complete Jupyter Notebook here: 
+
+https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning%20-%20Predict%20NaNs.ipynb
 
 
 ## 2. Step-by-step Python-Code for Machine Learning
 
-Based on Chapter 2 of Geron "Machine Learning with Scikit-Learn & Tensorflow": 
+As Jupyter Notebooks are not always the best environment for Python coding (e.g. Debugging), I extracted the most essential parts of Chapter 2 of Aurelien Geron "Machine Learning with Scikit-Learn & Tensorflow", sorted and arranged the code fragments slightly and created the following structured Python code for being used for example in Spyder (https://www.spyder-ide.org/). The structure of the Python code is a bit similar to the steps, which I followed in the Jupyter Notebooks above and are as follows (you will find these sections also in the ".py" file): 
 
  1. create index:    
 	 1.1 Alternative 1: generate id with static data
