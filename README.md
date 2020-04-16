@@ -3,9 +3,24 @@ After having learnt some visualization techniques (which I showed in my reposito
 
 ## 1. Movies Database Example
 
-In this example I want to predict the "Revenue" based on the other information, which I have for each movie (year, scoring, ...). For more see here: 
+In this example I want to predict the "Revenue" based on the other information, which I have for each movie (year, scoring, ...). I used a dataset which contains the following columns:
 
-https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning.ipynb
+Rank | Title | Year | Score | Metascore | Genre | Vote | Director | Runtime | Revenue | Description | RevCat
+
+My aim was to predict the Revenue based on the other information. There are some "NaN"-values in the column "Revenue" and instead of filling them with an assumption (e.g. median-value) as I did in another Jupiter-Notebook, I wanted to predict these values. Therefore I did the following:
+- I separated the rows with "NaN"-values in column "Revenue"
+- I drew a stratified sample (based on "Revenue") on this remaining dataset and I received a training dataset and testing dataset:
+
+![movies_train_test_nan](https://user-images.githubusercontent.com/55921277/79441450-87b98500-7fd7-11ea-80db-4630b1cbe123.png)
+
+- I created a pipeline to fill the "NaN"-value in other columns (e.g. "Metascore", "Score").
+- used the training dataset and fittet it with the "DecisionTreeRegressor" model
+- verified with a cross-validation, how good this model/parameters are
+- did a prediction on a subset of the testing dataset and did a side-by-side comparison of prediction and true value
+- performed a prediction on the testing dataset and calculated the mean-squared error
+
+For more information see here:
+
 
 ## 2. Step-by-step Python-Code for Machine Learning
 
