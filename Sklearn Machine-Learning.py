@@ -2,13 +2,18 @@
 """
 Created on Fri Mar 27 15:02:33 2020
 
-Geron, Praxiseinstieg Machine Learning mit Scikit-Learn und Tensorflow
-Kapitel 2
+This example provides essential code fragments, for Machine Learning in Sklearn. 
 
-@author: andre
-"""
+It is based on "Kapitel 2" of the book "Praxiseinstieg Machine Learning mit 
+Scikit-Learn und Tensorflow" from Aurelien Geron. This code does NOT work unless
+you have Python installed and adapted the code below do your specific 
+input-dataset (e.g. renamed the columns accordingly, adapted the cleaning 
+methods according to your input-dataset...). 
+
+@author: Andreas Traut
+
 #%% #######################################################################
-# 1. create index:    
+# 1. create index   
 	# 1.1 Alternative 1: generate id with static data
 	# 1.2 Alternative 2: generate stratified sampling
 	# 1.3 verify if stratified example is good
@@ -48,6 +53,7 @@ Kapitel 2
 
 # 11. Evaluate final model on test dataset
 #%% #######################################################################
+"""
 
 # To support both python 2 and python 3
 from __future__ import division, print_function, unicode_literals
@@ -131,11 +137,12 @@ housing.head()
 
 #%% #######################################################################
 #%% 
-# 1. create index # In[8]:    
+# =============================================================================
+# # 1. create index # In[8]:    
+# =============================================================================
 print("\n\n 1. create index # In[8]: \n")
 
 # import hashlib
-
 print(housing.info())
 housing_with_id = housing.reset_index()   # adds an `index` column
 
@@ -195,7 +202,9 @@ for set_ in (strat_train_set, strat_test_set):
 
 #%% #######################################################################
 #%% 
-# 2. Discover and visualize the data to gain insights # In[32]
+# =============================================================================
+# # 2. Discover and visualize the data to gain insights # In[32]
+# =============================================================================
 print("\n\n 2. Discover and visualize the data to gain insights # In[32] \n")
 
 # housing = strat_train_set.copy()
@@ -235,7 +244,9 @@ plt.show()
 
 #%% #######################################################################
 #%% 
-# 3. prepare for Machine Learning In[44]
+# =============================================================================
+# # 3. prepare for Machine Learning In[44]
+# =============================================================================
 print("\n\n 3. prepare for Machine Learning\n")
 
 housing = strat_train_set.drop("median_house_value", axis=1) # drop labels for training set
@@ -262,7 +273,9 @@ print("sample_incomplete_rows\n", sample_incomplete_rows)
 
 #%% #######################################################################
 #%% 
-# 4. Use "Imputer" to clean NaNs  #In[57]:
+# =============================================================================
+# # 4. Use "Imputer" to clean NaNs  #In[57]:
+# =============================================================================
 print("\n\n 4. Use Imputer In[57]: \n")
     
 try:
@@ -285,7 +298,9 @@ housing_tr.loc[sample_incomplete_rows.index.values]
 
 #%% #######################################################################
 #%% 
-# 5. treat "categorial" inputs  #In[67]
+# =============================================================================
+# # 5. treat "categorial" inputs  #In[67]
+# =============================================================================
 print("\n\n 5. treat categorial inputs  #In[67] \n")
 
 housing_cat = housing[['ocean_proximity']]
@@ -304,7 +319,9 @@ print("housing_cat_1hot:\n", housing_cat_1hot)
 
 #%% #######################################################################
 #%% 
-# 6. custom transformer and pipelines # In[67]
+# =============================================================================
+# # 6. custom transformer and pipelines # In[67]
+# =============================================================================
 print("\n\n 6. custom transformer and pipelines # In[67] \n")
 
 # 6.1 custom transformer # In[67]
@@ -371,7 +388,9 @@ print("housing_prepared\n", housing_prepared)
 
 #%% #######################################################################
 #%%
-# 7. select and train model #In[82]
+# =============================================================================
+# # 7. select and train model #In[82]
+# =============================================================================
 print("\n\n 7. select and train model #In[82]\n")
 
 # 7.1 LinearRegression model
@@ -406,7 +425,9 @@ print("tree_rmse\n", tree_rmse)
 
 #%% #######################################################################
 #%%
-# 8. crossvalidation 
+# =============================================================================
+# # 8. crossvalidation 
+# =============================================================================
 print("\n\n 8. crossvalidation \n")
 
 # 8.1 for DecisionTreeRegressor
@@ -469,7 +490,9 @@ display_scores(extratree_rmse_scores)
 
 #%% #######################################################################
 #%% 
-# 9. Save Model
+# =============================================================================
+# # 9. Save Model
+# =============================================================================
 print("\n\n 9. Save Model\n")
 
 # from sklearn.externals import joblib
@@ -479,7 +502,9 @@ my_model_loaded = joblib.load("forest_reg.pkl")
 
 #%% #######################################################################
 #%% 
-# 10. Optimize Model # In[98]
+# =============================================================================
+# # 10. Optimize Model # In[98]
+# =============================================================================
 print("\n\n 10. Optimize Model # In[98]\n")
 
 # 10.1 GridSearchCV
@@ -574,7 +599,9 @@ sorted(zip(feature_importances, attributes), reverse=True)
 
 #%% #######################################################################
 #%%
-# 11. Evaluate final model on test dataset
+# =============================================================================
+# # 11. Evaluate final model on test dataset
+# =============================================================================
 print("\n\n 11. Evaluate final model on test dataset\n")
 
 final_model = grid_search.best_estimator_
