@@ -17,7 +17,7 @@ Therefore the *first example* uses a Jupyter-Noteook in order to learn the stand
 
 The *second example* is for being used in an IDE. I will split it up into two parts: 
   * 2.1 will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
-  * 2.1 will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training.
+  * 2.2 will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training.
 
 ## 1. Movies Database Example
 
