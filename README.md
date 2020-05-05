@@ -11,7 +11,7 @@ Therefore: in my examples in this repository here I will also work with Python "
 ![Spyder](https://www.spyder-ide.org/static/images/spyder_website_banner.png)
 
 **Why is it important for me to point this out so early in a learning process?**  
-In my opinion Jupyter-Notebooks are good for the first examinations of data and for documenting procedures and up to a certain degree also for sophisticated data science. But it might be a good idea to learn very early how to work with an IDE. Think thinking about how to use what has been developed so far later in a bigger environment (for example a [Lambda-Architecture](https://de.wikipedia.org/wiki/Apache_Hadoop#Lambda-Architektur), but you can take whatever other environment, which requires robustness&stability). I point this out here, because after having read several e-Books and having participated in seminars I see that IDEs are not in the focus. 
+In my opinion Jupyter-Notebooks are good for the first examinations of data and for documenting procedures and up to a certain degree also for sophisticated data science. But it might be a good idea to learn very early how to work with an IDE. Think about how to use what has been developed so far later in a bigger environment (for example a [Lambda-Architecture](https://de.wikipedia.org/wiki/Apache_Hadoop#Lambda-Architektur), but you can take whatever other environment, which requires robustness&stability). I point this out here, because after having read several e-Books and having participated in seminars I see that IDEs are not in the focus. 
 
 Therefore the *first example* uses a Jupyter-Noteook in order to learn the standard procedures (e.g. data-cleaning&preparing, model-training,...). 
 
