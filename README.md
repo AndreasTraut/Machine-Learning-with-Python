@@ -33,15 +33,36 @@ In this example I want to predict the **"Revenue"** based on the other informati
 
 Therefore, here is how I approached the problem step-by-step: 
 - I separated the rows with "NaN"-values in column "Revenue"
+
+![](./media/NaN_rows_in_Revenue.jpg)
+
 - I drew a stratified sample (based on "Revenue") on this remaining dataset and I received a training dataset and testing dataset:
+
+![](./media/drew_stratified_sample.jpg)
 
 ![movies_train_test_nan](https://user-images.githubusercontent.com/55921277/79441450-87b98500-7fd7-11ea-80db-4630b1cbe123.png)
 
 - I created a pipeline to fill the "NaN"-value in other columns (e.g. "Metascore", "Score").
+
+![](./media/create_pipeline.jpg)
+
+![](./media/apply_pipeline.jpg)
+
 - used the training dataset and fittet it with the "DecisionTreeRegressor" model
+
+![](./media/fit_model_decisiontreeregresson.jpg)
+
 - verified with a cross-validation, how good this model/parameters are
+
+![](./media/cross_validation.jpg)
+
 - did a prediction on a subset of the testing dataset and did a side-by-side comparison of prediction and true value
+
+![](./media/side_by_side_comparison.jpg)
+
 - performed a prediction on the testing dataset and calculated the mean-squared error
+
+![](./media/calculate_mean_squared_error.jpg)
 
 **The conclusion of this machine learning example is** obvious: it is rather not possible to predict the "Revenue" based on the available information (the most useful numerical features were "year", "score", ... and the other categorical like "genre" don't seem to have much more added value in my opinion). 
 
