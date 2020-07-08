@@ -1,7 +1,7 @@
 Author: Andreas Traut
 Date: 08.07.2020
 
-[Download als PDF](https://github.com/AndreasTraut/Arbeitsproben/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
+[Download als PDF](https://github.com/AndreasTraut/Machine-Learning-with-Python/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
 
 
 # Machine Learning with Python
