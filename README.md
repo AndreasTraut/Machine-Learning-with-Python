@@ -1,3 +1,9 @@
+Author: Andreas Traut
+Date: 08.07.2020
+
+[Download als PDF](https://github.com/AndreasTraut/Arbeitsproben/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
+
+
 # Machine Learning with Python
 
 After having learnt visualization techniques in Python (which I showed in my repository "Visualization-of-Data-with-Python", see https://github.com/AndreasTraut/Visualization-of-Data-with-Python) I started working on different datasets with the aim to apply machine learning algorithms (e.g. [Decision Tree](https://de.wikipedia.org/wiki/Entscheidungsbaum) to name only one). 
