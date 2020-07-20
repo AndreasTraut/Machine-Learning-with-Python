@@ -82,7 +82,7 @@ As said above, the *second example* is for being used in an IDE. I will split it
   * 2.1 will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
   * 2.2 will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. At the end we will have a structure of steps which are recommended to follow: 
   
-![](./media/MindMap_SkLearn_and_Spark.jpg)
+![](./media/MindMap_SkLearn_and_Spark.jpeg)
   
 As Jupyter Notebooks are not always the best environment for Python coding (e.g. Debugging), I extracted the most essential parts of Chapter 2 of Aurelien Geron "Machine Learning with Scikit-Learn & Tensorflow", sorted and arranged the code fragments slightly and created the following structured Python code for being used for example in the [Spyder-IDE](https://www.spyder-ide.org/). The structure of the Python code is a bit similar to the steps, which I followed in the Jupyter Notebooks above and are as follows (you will find these sections also in the ".py" file): 
 
@@ -90,7 +90,7 @@ As Jupyter Notebooks are not always the best environment for Python coding (e.g.
 
 Let's start with the "scikit-learn" ("SmallData", if you want): 
 
-![](./media/MindMap_SkLearn.jpg)
+![](./media/MindMap_SkLearn.jpeg)
 
  1. create index   
 	 1.1 Alternative 1: generate id with static data
@@ -193,50 +193,50 @@ Let's start with the "scikit-learn" ("SmallData", if you want):
 
 Next is to extend this approach to Spark ("Big Data"): 
 
-![](./media/MindMap_Spark.jpg)
+![](./media/MindMap_Spark.jpeg)
 
 The steps are a bit similar (e.g. data-cleaning, preprocessing), to "scikit-learn" but the code is different: 
 
- 0. Initialize Spark   
-     0.1 Create Spark Context and Spark Session
-     0.2 Read CSV
-     0.3 Dataset Properties and some Select, Group and Aggregate Methods
-     0.4 Write as Parquet or CSV
-     0.5 Read Parquet
-     0.6 How to stop a Spark Session and Spark Context
+ 0. Initialize Spark     
+     0.1 Create Spark Context and Spark Session  
+     0.2 Read CSV  
+     0.3 Dataset Properties and some Select, Group and Aggregate Methods  
+     0.4 Write as Parquet or CSV  
+     0.5 Read Parquet  
+     0.6 How to stop a Spark Session and Spark Context  
 
- 1. Cleaning the data   
-     1.1 Show number of rows and columns and do some visualizations
-     1.2 Replacing and Casting
-     1.3 Null-Values
-     1.4 String Values
+ 1. Cleaning the data     
+     1.1 Show number of rows and columns and do some visualizations  
+     1.2 Replacing and Casting  
+     1.3 Null-Values  
+     1.4 String Values  
 
- 2. Model-specific preprocessing  
-     2.0 Check missing entries and define userdefined scatter plot
-     2.1 StringIndexer
-     2.2 OntHotEncoder
-     2.3 VectorAssembler
-     2.4 CountVectorizer
+ 2. Model-specific preprocessing    
+     2.0 Check missing entries and define userdefined scatter plot  
+     2.1 StringIndexer  
+     2.2 OntHotEncoder  
+     2.3 VectorAssembler  
+     2.4 CountVectorizer  
 
- 3. Aligning and numerating Features and Labels  
-     3.1 Aligning
-     3.2 Numerating
+ 3. Aligning and numerating Features and Labels    
+     3.1 Aligning  
+     3.2 Numerating  
 
- 4. Pipelines
+ 4. Pipelines  
 
- 5. Training data and Testing data
+ 5. Training data and Testing data  
 
- 6. Apply models and evaluate  
-     6.1 Ordinary Least Square Regression
-     6.2 Ridge Regression
-     6.3 Lasso Regression
-     6.4 Decision Tree
+ 6. Apply models and evaluate    
+     6.1 Ordinary Least Square Regression  
+     6.2 Ridge Regression  
+     6.3 Lasso Regression  
+     6.4 Decision Tree  
     
- 7. Minhash und Local-Sensitive-Hashing (LSH)
+ 7. Minhash und Local-Sensitive-Hashing (LSH)  
 
- 8. Alternative-Least-Square (ALS)  
-     8.1. Datapreparation for ALS
-     8.2 Build the recommendation model using alternating least squares (ALS)
-     8.3 Get recommendations
-     8.4 Clustering of Users with K-Means
-     8.5 Perform a PCA and draw the 2-dim projection
+ 8. Alternative-Least-Square (ALS)    
+     8.1. Datapreparation for ALS  
+     8.2 Build the recommendation model using alternating least squares (ALS)  
+     8.3 Get recommendations  
+     8.4 Clustering of Users with K-Means  
+     8.5 Perform a PCA and draw the 2-dim projection  
