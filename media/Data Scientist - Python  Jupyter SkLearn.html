@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="treestyles.css" type="text/css"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!--This file has been created with toxhtml.xsl--><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /><title>Programmablauf (SkLearn)</title><link rel="stylesheet" href="Data%20Scientist%20-%20Python%20%20Jupyter%20SkLearn.html_files//treestyles.css" type="text/css" /><script type="text/javascript" src="Data%20Scientist%20-%20Python%20%20Jupyter%20SkLearn.html_files//marktree.js"> 
+	</script></head><body><div class="basetop"><a onclick="expandAll(document.getElementById('base'))" href="#">Expand</a> -
+<a onclick="collapseAll(document.getElementById('base'))" href="#">Collapse</a></div><div class="basetext" id="base"><ul>
+	<li class="col" id="FMID_1740612510FM"><div class="nodecontent"><a href="Data%20Scientist%20-%20Python%20%20Jupyter.mm">Programmablauf (SkLearn)</a> <a href="Data%20Scientist%20-%20Python%20%20Jupyter.mm"><img src="Data%20Scientist%20-%20Python%20%20Jupyter%20SkLearn.html_files//ilink.png" alt="User Link" style="border-width:0" /></a></div>
+		<ul class="subexp">
+	<li class="col"><div class="nodecontent">1. import and create index</div>
+		<ul class="subexp">
+	<li class="basic" id="FMID_1725919625FM"><div class="boxed"><div class="nodecontent">os.path</div><div class="note-and-attributes"><span class="note"><p>
+      def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
+    </p><p>
+          os.makedirs(housing_path, exist_ok=True)
+    </p><p>
+          tgz_path = os.path.join(housing_path, "housing.tgz")
+    </p><p>
+          urllib.request.urlretrieve(housing_url, tgz_path)
+    </p><p>
+          housing_tgz = tarfile.open(tgz_path)
+    </p><p>
+          housing_tgz.extractall(path=housing_path)
+    </p><p>
+          housing_tgz.close()
+    </p><p /><p>
+      def load_housing_data(housing_path=HOUSING_PATH):
+    </p><p>
+          csv_path = os.path.join(housing_path, "housing.csv")
+    </p><p>
+          return pd.read_csv(csv_path)
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_378969657FM"><div class="boxed"><div class="nodecontent">xx_with_id</div><div class="note-and-attributes"><span class="note"><p>
+      housing_with_id["id"] = housing["longitude"] * 1000 + housing["latitude"]
+    </p><p /><p /></span></div></div></li>
+	<li class="basic" id="FMID_245560676FM"><div class="boxed"><div class="nodecontent">stratified samples</div><div class="note-and-attributes"><span class="note"><p>
+      from sklearn.model_selection import StratifiedShuffleSplit
+    </p><p>
+      split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+    </p><p>
+      for train_index, test_index in split.split(housing, housing["income_cat"]):
+    </p><p>
+          strat_train_set = housing.loc[train_index]
+    </p><p>
+          strat_test_set = housing.loc[test_index]
+    </p><p /><p>
+      strat_test_set["income_cat"].value_counts() / len(strat_test_set)
+    </p></span></div></div></li></ul></li>
+	<li class="col"><div class="nodecontent">2. discover and visualize data</div>
+		<ul class="subexp">
+	<li class="basic" id="FMID_1811172665FM"><div class="boxed"><div class="nodecontent">plot</div><div class="note-and-attributes"><span class="note"><p>
+      # from pandas.plotting import scatter_matrix
+    </p><p>
+      attributes = ["median_house_value", "median_income", "total_rooms", "housing_median_age"]
+    </p><p>
+      scatter_matrix(housing[attributes], figsize=(12, 8))
+    </p><p>
+      plt.suptitle("scatter_matrix_plot")
+    </p><p>
+      save_fig("scatter_matrix_plot")
+    </p><p /><p>
+      housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
+    </p><p>
+          s=housing["population"]/100, label="population", figsize=(10,7),
+    </p><p>
+          c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True,
+    </p><p>
+          sharex=False, title="housing_prices_scatterplot")
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_44253116FM"><div class="boxed"><div class="nodecontent">new variables</div><div class="note-and-attributes"><span class="note"><p>
+      housing["rooms_per_household"] = housing["total_rooms"]/housing["households"]
+    </p><p>
+      housing["bedrooms_per_room"] = housing["total_bedrooms"]/housing["total_rooms"]
+    </p><p>
+      housing["population_per_household"]=housing["population"]/housing["households"]
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_86983020FM"><div class="boxed"><div class="nodecontent">correlation matrix</div><div class="note-and-attributes"><span class="note"><p>
+      corr_matrix = housing.corr()
+    </p><p>
+      corr_matrix["median_house_value"].sort_values(ascending=False)
+    </p></span></div></div></li></ul></li>
+	<li class="col"><div class="nodecontent">3. - 5. prepare and clean data</div>
+		<ul class="subexp">
+	<li class="basic" id="FMID_702884922FM"><div class="boxed"><div class="nodecontent">remove NULL values</div><div class="note-and-attributes"><span class="note"><p>
+      sample_incomplete_rows = housing[housing.isnull().any(axis=1)].head()
+    </p><p>
+      # sample_incomplete_rows.dropna(subset=["total_bedrooms"])    # option 1 # In[54]:
+    </p><p>
+      # sample_incomplete_rows.drop("total_bedrooms", axis=1)       # option 2 # In[55]:
+    </p><p /><p>
+      median = housing["total_bedrooms"].median()
+    </p><p>
+      sample_incomplete_rows["total_bedrooms"].fillna(median, inplace=True) # option 3 # In[56]:
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_1746032879FM"><div class="boxed"><div class="nodecontent">Imputer</div><div class="note-and-attributes"><span class="note"><p>
+      from sklearn.preprocessing import Imputer as SimpleImputer
+    </p><p /><p>
+      imputer = SimpleImputer(strategy="median")
+    </p><p>
+      # Remove all text attributes because median can only be calculated on numerical attributes:
+    </p><p>
+      housing_num = housing.select_dtypes(include=[np.number]) #or: housing_num = housing.drop('ocean_proximity', axis=1)
+    </p><p>
+      imputer.fit(housing_num)
+    </p><p /><p>
+      print("imputer.strategy\n", imputer.strategy)
+    </p><p>
+      print("imputer.statistics_\n", imputer.statistics_)
+    </p><p>
+      print("housing_num.median\n", housing_num.median().values)  # Check that this is the same as manually computing the median of each attribute:
+    </p><p>
+      print("housing_num.mean\n", housing_num.mean().values)  # Check that this is the same as manually computing the median of each attribute:
+    </p><p /><p>
+      X = imputer.transform(housing_num) # Transform the training set:
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_616837579FM"><div class="boxed"><div class="nodecontent">treat categorial inputs (OneHotEncoder)</div><div class="note-and-attributes"><span class="note"><p>
+      from future_encoders import OneHotEncoder # Scikit-Learn &lt; 0.20
+    </p><p /><p>
+      cat_encoder = OneHotEncoder()
+    </p><p>
+      housing_cat_1hot = cat_encoder.fit_transform(housing_cat)
+    </p></span></div></div></li></ul></li>
+	<li class="col"><div class="nodecontent">6. custom transformation and pipelines</div>
+		<ul class="subexp">
+	<li class="basic" id="FMID_83755266FM"><div class="boxed"><div class="nodecontent">FunctionTransformer</div><div class="note-and-attributes"><span class="note"><p>
+      def add_extra_features(X, add_bedrooms_per_room=True):
+    </p><p>
+          rooms_per_household = X[:, rooms_ix] / X[:, household_ix]
+    </p><p>
+          population_per_household = X[:, population_ix] / X[:, household_ix]
+    </p><p>
+          if add_bedrooms_per_room:
+    </p><p>
+              bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
+    </p><p>
+              return np.c_[X, rooms_per_household, population_per_household, bedrooms_per_room]
+    </p><p>
+          else:
+    </p><p>
+              return np.c_[X, rooms_per_household, population_per_household]
+    </p><p /><p>
+      # from sklearn.preprocessing import FunctionTransformer
+    </p><p>
+      attr_adder = FunctionTransformer(add_extra_features, validate=False,
+    </p><p>
+                                       kw_args={"add_bedrooms_per_room": False})
+    </p><p>
+      housing_extra_attribs = attr_adder.fit_transform(housing.values)
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_1437063489FM"><div class="boxed"><div class="nodecontent">Pipeline</div><div class="note-and-attributes"><span class="note"><p>
+      num_pipeline = Pipeline([
+    </p><p>
+              ('imputer', SimpleImputer(strategy="median")),
+    </p><p>
+              ('attribs_adder', FunctionTransformer(add_extra_features, validate=False)),
+    </p><p>
+              ('std_scaler', StandardScaler())    ])
+    </p><p>
+      housing_num_tr = num_pipeline.fit_transform(housing_num)
+    </p><p /><p>
+      from future_encoders import ColumnTransformer # Scikit-Learn &lt; 0.20
+    </p><p /><p>
+      num_attribs = list(housing_num)
+    </p><p>
+      cat_attribs = ["ocean_proximity"]
+    </p><p /><p>
+      full_pipeline = ColumnTransformer([
+    </p><p>
+              ("num", num_pipeline, num_attribs),
+    </p><p>
+              ("cat", OneHotEncoder(), cat_attribs)  ])
+    </p><p>
+      housing_prepared = full_pipeline.fit_transform(housing)
+    </p></span></div></div></li></ul></li>
+	<li class="col"><div class="nodecontent">7. select and train model</div>
+		<ul class="subexp">
+	<li class="basic" id="FMID_1223303070FM"><div class="boxed"><div class="nodecontent">linear regression</div><div class="note-and-attributes"><span class="note"><p>
+      lin_reg = LinearRegression()
+    </p><p>
+      lin_reg.fit(housing_prepared, housing_labels)
+    </p><p>
+      housing_predictions = lin_reg.predict(housing_prepared)
+    </p><p /></span></div></div></li>
+	<li class="basic" id="FMID_1501004975FM"><div class="boxed"><div class="nodecontent">decision tree</div><div class="note-and-attributes"><span class="note"><p>
+      tree_reg = DecisionTreeRegressor(random_state=42)
+    </p><p>
+      tree_reg.fit(housing_prepared, housing_labels)
+    </p><p /></span></div></div></li></ul></li>
+	<li class="basic" id="FMID_92626971FM"><div class="boxed"><div class="nodecontent">8. cross validation</div><div class="note-and-attributes"><span class="note"><p>
+      scores = cross_val_score(tree_reg, housing_prepared, housing_labels,
+    </p><p>
+                               scoring="neg_mean_squared_error", cv=10)
+    </p><p>
+      tree_rmse_scores = np.sqrt(-scores)
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_1889128151FM"><div class="boxed"><div class="nodecontent">9. save model</div><div class="note-and-attributes"><span class="note"><p>
+      joblib.dump(forest_reg, "forest_reg.pkl")
+    </p><p>
+      # und später...
+    </p><p>
+      my_model_loaded = joblib.load("forest_reg.pkl")
+    </p></span></div></div></li>
+	<li class="col"><div class="nodecontent">10 optimize model</div>
+		<ul class="subexp">
+	<li class="basic" id="FMID_317060296FM"><div class="boxed"><div class="nodecontent">GridSearch</div><div class="note-and-attributes"><span class="note"><p>
+      param_grid = [
+    </p><p>
+          # try 12 (3×4) combinations of hyperparameters
+    </p><p>
+          {'n_estimators': [30, 40, 50], 'max_features': [2, 4, 6, 8, 10]},
+    </p><p>
+          # then try 6 (2×3) combinations with bootstrap set as False
+    </p><p>
+          {'bootstrap': [False], 'n_estimators': [3, 10], 'max_features': [2, 3, 4]},
+    </p><p>
+        ]
+    </p><p /><p>
+      forest_reg = RandomForestRegressor(random_state=42)
+    </p><p>
+      # train across 5 folds, that's a total of (12+6)*5=90 rounds of training
+    </p><p>
+      grid_search = GridSearchCV(forest_reg, param_grid, cv=5,
+    </p><p>
+                                 scoring='neg_mean_squared_error',
+    </p><p>
+                                 return_train_score=True)
+    </p><p>
+      grid_search.fit(housing_prepared, housing_labels)
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_194475819FM"><div class="boxed"><div class="nodecontent">RandomizedSearch</div><div class="note-and-attributes"><span class="note"><p>
+      param_distribs = {
+    </p><p>
+              'n_estimators': randint(low=1, high=200),
+    </p><p>
+              'max_features': randint(low=1, high=8),
+    </p><p>
+          }
+    </p><p /><p>
+      forest_reg = RandomForestRegressor(random_state=42)
+    </p><p>
+      rnd_search = RandomizedSearchCV(forest_reg,
+    </p><p>
+                                      param_distributions=param_distribs,
+    </p><p>
+                                      n_iter=10, cv=5,
+    </p><p>
+                                      scoring='neg_mean_squared_error',
+    </p><p>
+                                      random_state=42)
+    </p><p>
+      rnd_search.fit(housing_prepared, housing_labels)
+    </p></span></div></div></li>
+	<li class="basic" id="FMID_957144012FM"><div class="boxed"><div class="nodecontent">Analyze beste model</div><div class="note-and-attributes"><span class="note"><p>
+      feature_importances = grid_search.best_estimator_.feature_importances_
+    </p><p>
+      feature_importances
+    </p><p>
+      extra_attribs = ["rooms_per_hhold", "pop_per_hhold", "bedrooms_per_room"]
+    </p><p /><p>
+      cat_encoder = full_pipeline.named_transformers_["cat"]
+    </p><p>
+      cat_one_hot_attribs = list(cat_encoder.categories_[0])
+    </p><p>
+      attributes = num_attribs + extra_attribs + cat_one_hot_attribs
+    </p><p>
+      sorted(zip(feature_importances, attributes), reverse=True)
+    </p></span></div></div></li></ul></li>
+	<li class="basic" id="FMID_1674433508FM"><div class="boxed"><div class="nodecontent">11. evaluate final result</div><div class="note-and-attributes"><span class="note"><p>
+      final_model = grid_search.best_estimator_
+    </p><p /><p>
+      X_test = strat_test_set.drop("median_house_value", axis=1)
+    </p><p>
+      y_test = strat_test_set["median_house_value"].copy()
+    </p><p /><p>
+      X_test_prepared = full_pipeline.transform(X_test)
+    </p><p>
+      final_predictions = final_model.predict(X_test_prepared)
+    </p><p /><p>
+      final_mse = mean_squared_error(y_test, final_predictions)
+    </p><p>
+      final_rmse = np.sqrt(final_mse)
+    </p><p /><p>
+      print ("final_predictions\n", final_predictions )
+    </p><p>
+      print ("final_rmse \n", final_rmse )
+    </p><p /><p>
+      confidence = 0.95
+    </p><p>
+      squared_errors = (final_predictions - y_test) ** 2
+    </p><p>
+      mean = squared_errors.mean()
+    </p><p>
+      m = len(squared_errors)
+    </p><p /><p>
+      # from scipy import stats
+    </p><p>
+      print("95% confidence interval: ",
+    </p><p>
+            np.sqrt(stats.t.interval(confidence, m - 1,
+    </p><p>
+                               loc=np.mean(squared_errors),
+    </p><p>
+                               scale=stats.sem(squared_errors)))
+    </p><p>
+            )
+    </p></span></div></div></li></ul></li></ul></div></body></html>
