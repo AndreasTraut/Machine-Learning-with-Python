@@ -21,8 +21,8 @@ In my opinion Jupyter-Notebooks are good for the first examinations of data and 
 Therefore the *first example* uses a Jupyter-Noteook in order to learn the standard procedures (e.g. data-cleaning&preparing, model-training,...). 
 
 The *second example* is for being used in an IDE. I will split it up into two parts: 
-  * 2.1 will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
-  * 2.2 will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training.
+  * 2.1 for "Small Data" will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
+  * 2.2 for "Big Data" will will use the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library
 
 ## 1. Movies Database Example
 
@@ -78,10 +78,19 @@ https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%
 
 ## 2. Step-by-step Python-Code for Machine Learning"
 
+As said above, the *second example* is for being used in an IDE. I will split it up into two parts: 
+  * 2.1 will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
+  * 2.2 will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. At the end we will have a structure of steps which are recommended to follow: 
+  
+![](./media/MindMap_SkLearn_and_Spark.jpg)
+  
 As Jupyter Notebooks are not always the best environment for Python coding (e.g. Debugging), I extracted the most essential parts of Chapter 2 of Aurelien Geron "Machine Learning with Scikit-Learn & Tensorflow", sorted and arranged the code fragments slightly and created the following structured Python code for being used for example in the [Spyder-IDE](https://www.spyder-ide.org/). The structure of the Python code is a bit similar to the steps, which I followed in the Jupyter Notebooks above and are as follows (you will find these sections also in the ".py" file): 
 
 ### 2.1 Using "scikit-learn"
 
+Let's start with the "scikit-learn" ("SmallData", if you want): 
+
+![](./media/MindMap_SkLearn.jpg)
 
  1. create index   
 	 1.1 Alternative 1: generate id with static data
@@ -181,6 +190,10 @@ As Jupyter Notebooks are not always the best environment for Python coding (e.g.
 
 
 ### 2.2 Using "Apache Machine-Learning" Libary (Big Data)
+
+Next is to extend this approach to Spark ("Big Data"): 
+
+![](./media/MindMap_Spark.jpg)
 
 The steps are a bit similar (e.g. data-cleaning, preprocessing), to "scikit-learn" but the code is different: 
 
