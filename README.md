@@ -213,7 +213,7 @@ You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a
 
 ![](./media/docker_localhost_data.jpg)
 
-When you open the Jupyter-Notebook, you will see, that Apache Spark Verison 3.0.0 an dHadoop Version 3.2 is installed. 
+When you open the Jupyter-Notebook, you will see, that Apache Spark Verison 3.0.0 and Hadoop Version 3.2 is installed:
 
 ![](./media/docker_jupyter_apache_spark.jpg)
 
