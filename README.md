@@ -1,5 +1,5 @@
 Author: Andreas Traut  
-Date: 08.05.2020  
+Date: 08.05.2020  (Updates 24.07.2020)
 [Download as PDF](https://github.com/AndreasTraut/Machine-Learning-with-Python/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
 
 
@@ -191,11 +191,58 @@ Let's start with the "scikit-learn" ("SmallData", if you want):
 
 ### 2.2 Using "Apache Machine-Learning" Libary (Big Data)
 
-Next is to extend this approach to Spark ("Big Data"): 
+Next is to extend this approach to the Apache Spark environment (the "Big Data" environment). The steps are a bit similar (e.g. data-cleaning, preprocessing), to "scikit-learn" but the technical environment for running the code is different and also the code itself is different. 
+
+The technical environment: 
+
+There are differents ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of userfriendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
+
+For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is "an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux." Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
+
+I shared my code and developments on Docker-Hub in the following repository [here](https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark). After having installed Docker you will  need to open Windows Powershell and type the following: 
+
+![](./media/docker_run.jpg)
+
+You will see in your Docker Dashborad that a container is running: 
+
+![](./media/docker_openbrowser.jpg)
+
+After having opened your browser (e.g. Firefox-Browser), navigate to "localhost:8888" (8888 is the port, which will be opened). 
+
+![](./media/docker_localhost.jpg)
+
+You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). 
+
+![](./media/docker_data.jpg)
+
+When you open the Jupyter-Notebook, you will see, that Apache Spark Verison 3.0.0 an dHadoop Version 3.2 is installed. 
+
+![](./media/docker_jupyter_apache_spark.jpg)
+
+Initializing a Spark sessions works with the following commands: 
+
+![](./media/docker_jupyter_initialize_spark.jpg)
+
+After then the data-cleaning and data preparation (eliminating of null values, visualization techniques) work pretty similar to the "Small data" (Sklearn) approach. If you want to persist (=save) your intermediate you can do it as follows: 
+
+![](./media/docker_jupyter_persisting_data.jpg)
+
+I included some examples of how features can be extracted, transformed and selected in the Jupyter-Notebook. Just to mention a few here: the "StringIndexer", "OneHotEncoder" and "VectorAssembler" work as follows: 
+
+![](./media/docker_jupyter_stringindexer.jpg)
+
+![](./media/docker_jupyter_onehotencoder_vectorassembler.jpg)
+
+After having extracted, transformed and selected features you will want to apply some models, for example the "OLS Regression": 
+
+![](./media/docker_jupyter_ordinary_least_square_regression.jpg)
+
+or a "Decision Tree" Modell using a cross validator: 
+![](./media/docker_jupyter_decisiontree_crossvalidator.jpg)
+
+To summarize the whole coding structure have a look at this mind-map and structure below: 
 
 ![](./media/MindMap_Spark.jpeg)
-
-The steps are a bit similar (e.g. data-cleaning, preprocessing), to "scikit-learn" but the code is different: 
 
  0. Initialize Spark     
      0.1 Create Spark Context and Spark Session  
