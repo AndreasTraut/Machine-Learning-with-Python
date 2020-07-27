@@ -13,16 +13,16 @@ In my *first example* in this repository here I will use [Jupyter-Notebooks](htt
 
 Therefore: in my examples in this repository here I will also work with Python ".py" files. These ".py" can be executed in an IDE, like e.g. Spyder-IDE (see https://www.spyder-ide.org/)
 
-![Spyder](https://www.spyder-ide.org/static/images/spyder_website_banner.png)
+![](./media/spyder.jpg)
 
 **Why is it important for me to point this out so early in a learning process?**  
 In my opinion Jupyter-Notebooks are good for the first examinations of data and for documenting procedures and up to a certain degree also for sophisticated data science. But it might be a good idea to learn very early how to work with an IDE. Think about how to use what has been developed so far later in a bigger environment (for example a [Lambda-Architecture](https://de.wikipedia.org/wiki/Apache_Hadoop#Lambda-Architektur), but you can take whatever other environment, which requires robustness&stability). I point this out here, because after having read several e-Books and having participated in seminars I see that IDEs are not in the focus. 
 
 Therefore the *first example* uses a Jupyter-Noteook in order to learn the standard procedures (e.g. data-cleaning&preparing, model-training,...). 
 
-The *second example* is for being used in an IDE. I will split it up into two parts: 
-  * 2.1 for "Small Data" will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
-  * 2.2 for "Big Data" will will use the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library
+The *second example* is for being used in an IDE. It will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library (you may call it "SmallData" if you want). 
+
+The *third example* is a "Big Data" example and will use the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. 
 
 ## 1. Movies Database Example
 
@@ -76,19 +76,10 @@ Please find the complete Jupyter Notebook here:
 https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning%20-%20Predict%20NaNs.ipynb
 
 
-## 2. Step-by-step Python-Code for Machine Learning"
 
-As said above, the *second example* is for being used in an IDE. I will split it up into two parts: 
-  * 2.1 will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library
-  * 2.2 will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. At the end we will have a structure of steps which are recommended to follow: 
-  
-![](./media/MindMap_SkLearn_and_Spark.jpeg)
-  
-As Jupyter Notebooks are not always the best environment for Python coding (e.g. Debugging), I extracted the most essential parts of Chapter 2 of Aurelien Geron "Machine Learning with Scikit-Learn & Tensorflow", sorted and arranged the code fragments slightly and created the following structured Python code for being used for example in the [Spyder-IDE](https://www.spyder-ide.org/). The structure of the Python code is a bit similar to the steps, which I followed in the Jupyter Notebooks above and are as follows (you will find these sections also in the ".py" file): 
+## 2. Step-by-step Python-Code for Machine Learning using "scikit-learn"
 
-### 2.1 Using "scikit-learn"
-
-Let's start with the "scikit-learn" ("SmallData", if you want): 
+As said above, the *second example* is for being used in an IDE. If will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library. As Jupyter Notebooks are not always the best environment for Python coding (e.g. Debugging), I extracted the most essential parts of Chapter 2 of Aurelien Geron "Machine Learning with Scikit-Learn & Tensorflow", sorted and arranged the code fragments slightly and created the following structured Python code for being used for example in the [Spyder-IDE](https://www.spyder-ide.org/). The structure of the Python code is a bit similar to the steps, which I followed in the Jupyter Notebooks above and are as follows (you will find these sections also in the ".py" file). Let's start with the "scikit-learn" ("SmallData", if you want): 
 
 ![](./media/MindMap_SkLearn.jpeg)
 
@@ -189,11 +180,13 @@ Let's start with the "scikit-learn" ("SmallData", if you want):
 ![](./media/11_evaluate_final_model.jpg)
 
 
-### 2.2 Using "Apache Machine-Learning" Libary (Big Data)
+## 3. Step-by-step Python-Code for Machine Learning using "Apache Machine-Learning" Libary (Big Data)
 
-Next is to extend the approach from 2.1 to the Apache Spark environment (the "Big Data" environment). Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
+This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
 
-The technical environment: There are differents ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of userfriendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
+![](./media/MindMap_SkLearn_and_Spark.jpeg)
+
+There are differents ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of userfriendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
 
 For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is "an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux." Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
 
