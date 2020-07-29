@@ -75,6 +75,9 @@ Please find the complete Jupyter Notebook here:
 
 https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning%20-%20Predict%20NaNs.ipynb
 
+If you want to run the code immediately without installing the required "Jupyter environment" then you can use this Deepnote-Link:  
+
+https://beta.deepnote.com/project/754094f0-3c01-4c29-b2f3-e07f507da460
 
 
 ## 2. Step-by-step Python-Code for Machine Learning using "scikit-learn"
