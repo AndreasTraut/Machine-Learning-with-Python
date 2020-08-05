@@ -273,7 +273,7 @@ To summarize the whole coding structure have a look at this mind-map and structu
      6.3 Lasso Regression  
      6.4 Decision Tree  
     
- 7. Minhash und Local-Sensitive-Hashing (LSH)  
+ 7. Minhash und Local-Sensitive-Hashing (LSH): see: https://github.com/AndreasTraut/Deep_learning_explorations
 
  8. Alternative-Least-Square (ALS)    
      8.1. Datapreparation for ALS  
