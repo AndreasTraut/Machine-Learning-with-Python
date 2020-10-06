@@ -2,6 +2,8 @@ Author: Andreas Traut
 Date: 08.05.2020  (Updates 24.07.2020)
 [Download as PDF](https://github.com/AndreasTraut/Machine-Learning-with-Python/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
 
+[TOC]
+
 
 # Machine Learning with Python
 
@@ -88,98 +90,104 @@ As said above, the *second example* is for being used in an IDE. If will use the
 
  1. create index   
 	 1.1 Alternative 1: generate id with static data
-	 
+	
+
 ![](./media/1_1_generate_id_with_static_data.jpg)
 
 	 1.2 Alternative 2: generate stratified sampling
-	 
+
 ![](./media/1_2_generate_stratified_sampling.jpg)
 
 	 1.3 verify if stratified example is good
-	 
+
 ![](./media/1_3_verify_if_stratified_example_is_good.jpg)
 
  2. Discover and visualize the data to gain insights
- 
+
 ![](./media/2_discover_and_visualize.jpg)
 
  3. prepare for Machine Learning  
 	 3.1 find all NULL-values
-	 
+	
+
 ![](./media/3_1_find_all_NULL_values.jpg)
 
 	 3.2 remove all NULL-values
-	 
+
 ![](./media/3_2_remove_all_NULL_values.jpg)
 
 
  4. Use "Imputer" to clean NaNs
- 
+
 ![](./media/4_use_imputer_to_clean_NaNs.jpg)
 
  5. treat "categorial" inputs
- 
+
 ![](./media/5_treat_categorial_inputs.jpg)
 
  6. custom transformer and pipelines  
 	 6.1 custom transformer
-	 
+	
+
 ![](./media/6_1_custom_transformer.jpg)
 
 	 6.2 pipelines
-	 
+
 ![](./media/6_2_pipelines.jpg)
 
  7. select and train model  
 	 7.1 LinearRegression model
-	 
+	
+
 ![](./media/7_1_linear_regression_model.jpg)
 
 	 7.2 DecisionTreeRegressor model
-	 
+
 ![](./media/7_2_decisiontreeregressor_model.jpg)
 
  8. crossvalidation  
 	 8.1 for DecisionTreeRegressor
-	 
+	
+
 ![](./media/8_1_crossvalidation_for_decisontreeregressor.jpg)
 
 	 8.2 for LinearRegression
-	 
+
 ![](./media/8_2_crossvalidation_for_linearregression.jpg)
 
 	 8.3 for RandomForestRegressor
-	 
+
 ![](./media/8_3_crossvalidation_for_randomforestregressor.jpg)
 
 	 8.4 for ExtraTreesRegressor
-	 
+
 ![](./media/8_4_crossvalidation_for_extratreesregressor.jpg)
 
  9. Save Model
- 
+
 ![](./media/9_save_model.jpg)
 
  10. Optimize Model  
 	 10.1 GridSearchCV
 		 10.1.1 GridSearchCV on RandomForestRegressor
 		 
+
 ![](./media/10_1_1_gridsearchcv_randomforestregressor.jpg)
 
 		 10.1.2 GridSearchCV on LinearRegressor
-		 
+
 ![](./media/10_1_2_gridsearchcv_linearregressor.jpg)
 
 	 10.2 Randomized Search
-	 
+
 ![](./media/10_2_randomized_search.jpg)
 
 	 10.3 Analyze best models
-	 
+
 ![](./media/10_3_analyze_best_models.jpg)
 
  11. Evaluate final model on test dataset
- 
+
 ![](./media/11_evaluate_final_model.jpg)
 
 
@@ -281,3 +289,31 @@ To summarize the whole coding structure have a look at this mind-map and structu
      8.3 Get recommendations  
      8.4 Clustering of Users with K-Means  
      8.5 Perform a PCA and draw the 2-dim projection  
+
+
+
+
+
+---
+
+# MIT License
+
+Copyright (c) 2020 Andras Traut
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
