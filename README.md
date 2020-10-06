@@ -1,5 +1,5 @@
 Author: Andreas Traut  
-Date: 08.05.2020  (Updates 24.07.2020)
+Date: 08.05.2020  (Updates 24.07.2020)  
 [Download as PDF](https://github.com/AndreasTraut/Machine-Learning-with-Python/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
 
 [TOC]
