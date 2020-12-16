@@ -201,7 +201,13 @@ There are differents ways to approach the Apache Spark and Hadoop environment: y
 
 For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is "an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux." Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
 
-I shared my code and developments on Docker-Hub in the following repository [here](https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark). After having installed Docker you will  need to open Windows Powershell and type the following: 
+I shared my code and developments on Docker-Hub in the following repository [here](https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark). After having installed the Docker application you will need to pull my "machine-learning-pyspark" image to your computer: 
+
+`docker pull andreastraut/machine-learning-pyspark`
+
+Then open Windows Powershell and type the following: 
+
+`docker run -dp 8888:8888 andreastraut/machine-learning-pyspark:latest`
 
 ![](./media/docker_run.jpg)
 
@@ -213,9 +219,13 @@ After having opened your browser (e.g. Firefox-Browser), navigate to "localhost:
 
 ![](./media/docker_localhost.jpg)
 
-You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the visualization of huge datasets can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. 
-
 ![](./media/docker_localhost_data.jpg)
+
+| Excurs to Big Data Visualization and K-Means Clustering Algorithm |
+| ------------------------------------------------------------ |
+| You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. |
+
+
 
 When you open the Jupyter-Notebook, you will see, that Apache Spark Verison 3.0.0 and Hadoop Version 3.2 is installed:
 
@@ -287,8 +297,7 @@ To summarize the whole coding structure have a look at this mind-map and structu
      8.1. Datapreparation for ALS  
      8.2 Build the recommendation model using alternating least squares (ALS)  
      8.3 Get recommendations  
-     8.4 Clustering of Users with K-Means  
-     8.5 Perform a PCA and draw the 2-dim projection  
+     8.4 Clustering of Users with K-Means: see https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark  8.5 Perform a PCA and draw the 2-dim projection  
 
 
 
