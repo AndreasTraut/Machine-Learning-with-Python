@@ -7,6 +7,10 @@ Date: 08.05.2020  (Updates 24.07.2020)
 
 # Machine Learning with Python
 
+## 0. Introduction
+
+### a) Aim of this repository
+
 After having learnt visualization techniques in Python (which I showed in my repository "Visualization-of-Data-with-Python", see https://github.com/AndreasTraut/Visualization-of-Data-with-Python) I started working on different datasets with the aim to apply machine learning algorithms (e.g. [Decision Tree](https://de.wikipedia.org/wiki/Entscheidungsbaum) to name only one). 
 
 In my *first example* in this repository here I will use [Jupyter-Notebooks](https://jupyter.org/), which is a widespread standard today. The first Jupyter-Notebooks have been developed 5 years ago (in 2015). Since my first programming experience was more than 25 years ago (I started with [GW-Basic](https://de.wikipedia.org/wiki/GW-BASIC) then [Turbo-Pascal](https://de.wikipedia.org/wiki/Turbo_Pascal) and so on...) I quickly learnt the advantages of using Jupyter-Notebooks. 
@@ -17,22 +21,39 @@ Therefore: in my examples in this repository here I will also work with Python "
 
 ![](./media/spyder.jpg)
 
-**Why is it important for me to point this out so early in a learning process?**  
-In my opinion Jupyter-Notebooks are good for the first examinations of data and for documenting procedures and up to a certain degree also for sophisticated data science. But it might be a good idea to learn very early how to work with an IDE. Think about how to use what has been developed so far later in a bigger environment (for example a [Lambda-Architecture](https://de.wikipedia.org/wiki/Apache_Hadoop#Lambda-Architektur), but you can take whatever other environment, which requires robustness&stability). I point this out here, because after having read several e-Books and having participated in seminars I see that IDEs are not in the focus. 
+### b) Motivation for IDEs
+
+Why is it important for me to mention the IDEs out so early in a learning process? In my opinion Jupyter-Notebooks are good for the first examinations of data and for documenting procedures and up to a certain degree also for sophisticated data science. But it might be a good idea to learn very early how to work with an IDE. Think about how to use what has been developed so far later in a bigger environment (for example a [Lambda-Architecture](https://de.wikipedia.org/wiki/Apache_Hadoop#Lambda-Architektur), but you can take whatever other environment, which requires robustness&stability). I point this out here, because after having read several e-Books and having participated in seminars I see that IDEs are not in the focus.  
+
+### c) Structure of this repository
+
+#### (i) First part
 
 Therefore the *first example* uses a Jupyter-Noteook in order to learn the standard procedures (e.g. data-cleaning&preparing, model-training,...). 
 
+#### (ii) Second part
+
 The *second example* is for being used in an IDE. It will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library (you may call it "SmallData" if you want). 
 
-The *third example* is a "Big Data" example and will use the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. 
+#### (iii) Third part
+
+The *third example* is a "Big Data" example and will use the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Here I also show some Big Data Visualizations and the K-Means Clustering Algorithm. 
+
+### d) Future learnings and coding & data sources 
+
+For <u>all</u> of these topics various tutorials, documentation, coding examples and guidelines can be found in the internet **for free**! The Open Source Community is an incredible treasure trove and enrichment that positively drives many digital developments: Scikit-Learn, Apache Spark, Spyder, GitHub, Tensorflow and also Firefox, Signal, Threema, ... to be mentionned. There are many positive examples of sharing code and data "for free". 
+
+<u>Coding:</u> 
+
+If you google for example *"how to prepare and clean the data with spark"*, you will find tons of documents around *removing null values* or *encoders* (like the OneHotEncoder for treating categorial inputs) or *pipelines* (for putting all the steps in an efficient, customizable order) so on. You will be overwhelmed of all this. What I will do here is nothing more than putting it together so that it works for my problem. Adapting it for your needs should be easier from this point on. 
+
+<u>Data:</u>
+
+If you would like to do further analysis or produce alternate visualisations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons CC0 1.0 Universal (CC0 1.0) "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). The movies database doesn't even mention a licence and is from [Kaggle](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118/metadata). There you find a lot of more datasets and also coding examples for your studies. 
 
 ## 1. Movies Database Example
 
-A good starting point for finding useful datasets is "Kaggle" (www.kaggle.com). I downloaded the following movies dataset: 
-
-https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118
-
-The dataset from Kaggle contains the following columns:
+A good starting point for finding useful datasets is "Kaggle" (www.kaggle.com). I downloaded the movies dataset from [here](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118). The dataset from Kaggle contains the following columns:
 
 Rank | Title | Year | Score | Metascore | Genre | Vote | Director | Runtime | **Revenue** | Description | RevCat
 
@@ -88,112 +109,118 @@ As said above, the *second example* is for being used in an IDE. If will use the
 
 ![](./media/MindMap_SkLearn.jpeg)
 
- 1. create index   
-	 1.1 Alternative 1: generate id with static data
-	
+#### 1. create index   
+
+##### 1.1 Alternative 1: generate id with static data
 
 ![](./media/1_1_generate_id_with_static_data.jpg)
 
-	 1.2 Alternative 2: generate stratified sampling
+
+
+##### 1.2 Alternative 2: generate stratified sampling
 
 ![](./media/1_2_generate_stratified_sampling.jpg)
 
-	 1.3 verify if stratified example is good
+##### 1.3 verify if stratified example is good
 
 ![](./media/1_3_verify_if_stratified_example_is_good.jpg)
 
- 2. Discover and visualize the data to gain insights
+#### 2. Discover and visualize the data to gain insights
 
 ![](./media/2_discover_and_visualize.jpg)
 
- 3. prepare for Machine Learning  
-	 3.1 find all NULL-values
-	
+#### 3. prepare for Machine Learning  
+
+##### 3.1 find all NULL-values
 
 ![](./media/3_1_find_all_NULL_values.jpg)
 
-	 3.2 remove all NULL-values
+##### 3.2 remove all NULL-values
 
 ![](./media/3_2_remove_all_NULL_values.jpg)
 
-
- 4. Use "Imputer" to clean NaNs
+#### 4. Use "Imputer" to clean NaNs
 
 ![](./media/4_use_imputer_to_clean_NaNs.jpg)
 
- 5. treat "categorial" inputs
+#### 5. treat "categorial" inputs
 
 ![](./media/5_treat_categorial_inputs.jpg)
 
- 6. custom transformer and pipelines  
-	 6.1 custom transformer
-	
+#### 6. custom transformer and pipelines  
+
+##### 6.1 custom transformer
 
 ![](./media/6_1_custom_transformer.jpg)
 
-	 6.2 pipelines
+#####  6.2 pipelines
 
 ![](./media/6_2_pipelines.jpg)
 
- 7. select and train model  
-	 7.1 LinearRegression model
-	
+#### 7. select and train model  
+
+##### 7.1 LinearRegression model
 
 ![](./media/7_1_linear_regression_model.jpg)
 
-	 7.2 DecisionTreeRegressor model
+#####  7.2 DecisionTreeRegressor model
 
 ![](./media/7_2_decisiontreeregressor_model.jpg)
 
- 8. crossvalidation  
-	 8.1 for DecisionTreeRegressor
-	
+#### 8. crossvalidation  
+
+##### 8.1 for DecisionTreeRegressor
 
 ![](./media/8_1_crossvalidation_for_decisontreeregressor.jpg)
 
-	 8.2 for LinearRegression
+#####  8.2 for LinearRegression
 
 ![](./media/8_2_crossvalidation_for_linearregression.jpg)
 
-	 8.3 for RandomForestRegressor
+##### 8.3 for RandomForestRegressor
 
 ![](./media/8_3_crossvalidation_for_randomforestregressor.jpg)
 
-	 8.4 for ExtraTreesRegressor
+##### 8.4 for ExtraTreesRegressor
 
 ![](./media/8_4_crossvalidation_for_extratreesregressor.jpg)
 
- 9. Save Model
+#### 9. Save Model
 
 ![](./media/9_save_model.jpg)
 
- 10. Optimize Model  
-	 10.1 GridSearchCV
-		 10.1.1 GridSearchCV on RandomForestRegressor
-		 
+#### 10. Optimize Model  
+
+#####  10.1 GridSearchCV
+
+###### 	 10.1.1 GridSearchCV on RandomForestRegressor	 
 
 ![](./media/10_1_1_gridsearchcv_randomforestregressor.jpg)
 
-		 10.1.2 GridSearchCV on LinearRegressor
+###### 	 10.1.2 GridSearchCV on LinearRegressor
 
 ![](./media/10_1_2_gridsearchcv_linearregressor.jpg)
 
-	 10.2 Randomized Search
+#####  10.2 Randomized Search
 
 ![](./media/10_2_randomized_search.jpg)
 
-	 10.3 Analyze best models
+#####  10.3 Analyze best models
 
 ![](./media/10_3_analyze_best_models.jpg)
 
- 11. Evaluate final model on test dataset
+#### 11. Evaluate final model on test dataset
 
 ![](./media/11_evaluate_final_model.jpg)
 
 
 ## 3. Step-by-step Python-Code for Machine Learning using "Apache Machine-Learning" Libary (Big Data)
 
-This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
+This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Various tutorials, documentation, "code-fragments" and guidelines can be found in the internet **for free**. 
+
+Conerning "Big Data" I want to add the following: understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
+
+Let's start with the structure, which I put into a mind map (you can download it from this repository). 
 
 ![](./media/MindMap_SkLearn_and_Spark.jpeg)
 
@@ -219,11 +246,13 @@ After having opened your browser (e.g. Firefox-Browser), navigate to "localhost:
 
 ![](./media/docker_localhost.jpg)
 
+The folder "data" contains the datasets. If you would like to do further analysis or produce alternate visualisations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons CC0 1.0 Universal (CC0 1.0) "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). 
+
 ![](./media/docker_localhost_data.jpg)
 
 | Excurs to Big Data Visualization and K-Means Clustering Algorithm |
 | ------------------------------------------------------------ |
-| You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. Additionally I will work on this dataset to show how the **K-Means Clustering Algorithm** can be applied. |
+| You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. <br /><br />Additionally I will work on this dataset to show how the **K-Means Clustering Algorithm** can be applied by using the Spark Marchine-Learning Libary. |
 
 
 
@@ -249,57 +278,83 @@ After having extracted, transformed and selected features you will want to apply
 
 ![](./media/docker_jupyter_ordinary_least_square_regression.jpg)
 
-or a "Decision Tree" Modell using a cross validator: 
-![](./media/docker_jupyter_decisiontree_crossvalidator.jpg)
-
 To summarize the whole coding structure have a look at this mind-map and structure below: 
 
 ![](./media/MindMap_Spark.jpeg)
 
- 0. Initialize Spark     
-     0.1 Create Spark Context and Spark Session  
-     0.2 Read CSV  
-     0.3 Dataset Properties and some Select, Group and Aggregate Methods  
-     0.4 Write as Parquet or CSV  
-     0.5 Read Parquet  
-     0.6 How to stop a Spark Session and Spark Context  
+#### 0. Initialize Spark     
 
- 1. Cleaning the data     
-     1.1 Show number of rows and columns and do some visualizations  
-     1.2 Replacing and Casting  
-     1.3 Null-Values  
-     1.4 String Values  
+##### 0.1 Create Spark Context and Spark Session  
 
- 2. Model-specific preprocessing    
-     2.0 Check missing entries and define userdefined scatter plot  
-     2.1 StringIndexer  
-     2.2 OntHotEncoder  
-     2.3 VectorAssembler  
-     2.4 CountVectorizer  
+##### 0.2 Read CSV  
 
- 3. Aligning and numerating Features and Labels    
-     3.1 Aligning  
-     3.2 Numerating  
+##### 0.3 Dataset Properties and some Select, Group and Aggregate Methods  
 
- 4. Pipelines  
+##### 0.4 Write as Parquet or CSV  
 
- 5. Training data and Testing data  
+##### 0.5 Read Parquet  
 
- 6. Apply models and evaluate    
-     6.1 Ordinary Least Square Regression  
-     6.2 Ridge Regression  
-     6.3 Lasso Regression  
-     6.4 Decision Tree  
-    
- 7. Minhash und Local-Sensitive-Hashing (LSH): see: https://github.com/AndreasTraut/Deep_learning_explorations
+##### 0.6 How to stop a Spark Session and Spark Context  
 
- 8. Alternative-Least-Square (ALS)    
-     8.1. Datapreparation for ALS  
-     8.2 Build the recommendation model using alternating least squares (ALS)  
-     8.3 Get recommendations  
-     8.4 Clustering of Users with K-Means: see https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark  8.5 Perform a PCA and draw the 2-dim projection  
+#### 1. Cleaning the data     
 
+##### 1.1 Show number of rows and columns and do some visualizations  
 
+##### 1.2 Replacing and Casting  
+
+##### 1.3 Null-Values  
+
+##### 1.4 String Values  
+
+#### 2. Model-specific preprocessing    
+
+##### 2.0 Check missing entries and define userdefined scatter plot  
+
+##### 2.1 StringIndexer  
+
+##### 2.2 OntHotEncoder  
+
+##### 2.3 VectorAssembler  
+
+##### 2.4 CountVectorizer  
+
+#### 3. Aligning and numerating Features and Labels    
+
+##### 3.1 Aligning  
+
+##### 3.2 Numerating  
+
+#### 4. Pipelines  
+
+#### 5. Training data and Testing data  
+
+#### 6. Apply models and evaluate    
+
+##### 6.1 Ordinary Least Square Regression  
+
+##### 6.2 Ridge Regression  
+
+##### 6.3 Lasso Regression  
+
+##### 6.4 Decision Tree  
+
+#### 7. Minhash und Local-Sensitive-Hashing (LSH) 
+
+see: https://github.com/AndreasTraut/Deep_learning_explorations
+
+#### 8. Alternative-Least-Square (ALS)    
+
+##### 8.1. Datapreparation for ALS  
+
+##### 8.2 Build the recommendation model using alternating least squares (ALS)  
+
+##### 8.3 Get recommendations  
+
+##### 8.4 Clustering of Users with K-Means 
+
+see https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark  
+
+##### 8.5 Perform a PCA and draw the 2-dim projection  
 
 
 
