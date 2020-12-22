@@ -1,4 +1,4 @@
-Author: Andreas Traut  
+​	Author: Andreas Traut  
 Date: 08.05.2020  (Updates 24.07.2020)  
 [Download as PDF](https://github.com/AndreasTraut/Machine-Learning-with-Python/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
 
@@ -29,27 +29,31 @@ Why is it important for me to mention the IDEs out so early in a learning proces
 
 #### (i) First part
 
-Therefore the *first example* uses a Jupyter-Noteook in order to learn the standard procedures (e.g. data-cleaning&preparing, model-training,...). 
+Therefore the *first example* uses a [Jupyter-Notebook](https://jupyter.org/) in order to learn the standard procedures (e.g. data-cleaning & preparing, model-training,...). 
 
-#### (ii) Second part
+#### (ii) Second part ("small data")
 
-The *second example* is for being used in an IDE. It will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library (you may call it "SmallData" if you want). 
+The *second example* is for being used in an IDE (developer environment), like the [Spyder-IDE](https://www.spyder-ide.org/) from the [Anaconda distribution](https://www.anaconda.com/) and apply the ["Scikit-Learn Python Machine Learning Library"](https://scikit-learn.org/stable/)  (you may call this example a "small data" example if you want). I will show you a typical structure for a machine-learning example and put it into a mind-map. The same structure will be applied on the third example. 
 
-#### (iii) Third part
+#### (iii) Third part ("big data")
 
-The *third example* is a "Big Data" example and will use the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Here I also show some Big Data Visualizations and the K-Means Clustering Algorithm. 
+The *third example* is a "Big Data" example and will use a [Docker environment](https://www.docker.com/) and apply the ["Apache Machine Learning Library"](https://spark.apache.org/mllib/), a scalable machine learning library. The mind-map from the second part will be extended and aligned to the second example. In this example I also show some Big Data Visualizations techniques and also show how the K-Means Clustering Algorithm can be applied by using Apache Spark ML. 
+
+#### (iv) Summary mind-map
+
+I provide a summary mind-map, which possibly helps you to structure your code. Many steps in the "Skikit-Learn" example and the "Apache MLib" example are very similar and repeating. 
 
 ### d) Future learnings and coding & data sources 
 
-For <u>all</u> of these topics various tutorials, documentation, coding examples and guidelines can be found in the internet **for free**! The Open Source Community is an incredible treasure trove and enrichment that positively drives many digital developments: Scikit-Learn, Apache Spark, Spyder, GitHub, Tensorflow and also Firefox, Signal, Threema, ... to be mentionned. There are many positive examples of sharing code and data "for free". 
+For <u>all</u> of these topics various tutorials, documentation, coding examples and guidelines can be found in the internet **for free**! The Open Source Community is an incredible treasure trove and enrichment that positively drives many digital developments: [Scikit-Learn](https://github.com/scikit-learn/scikit-learn), [Apache Spark](https://github.com/apache/spark), [Spyder](https://github.com/spyder-ide/spyder), [GitHub](https://github.com/github), [Tensorflow](https://github.com/tensorflow/tensorflow) and also [Firefox](https://github.com/mozilla), [Signal](https://github.com/signalapp), [Threema](https://github.com/threema-ch), [Corona-Warnapp](https://github.com/corona-warn-app)... to be mentionned. There are many positive examples of sharing code and data "for free". 
 
 <u>Coding:</u> 
 
-If you google for example *"how to prepare and clean the data with spark"*, you will find tons of documents around *removing null values* or *encoders* (like the OneHotEncoder for treating categorial inputs) or *pipelines* (for putting all the steps in an efficient, customizable order) so on. You will be overwhelmed of all this. What I will do here is nothing more than putting it together so that it works for my problem. Adapting it for your needs should be easier from this point on. 
+If you Google for example *"how to prepare and clean the data with spark"*, you will find tons of documents around *removing null values* or *encoders* (like the OneHotEncoder for treating categorical inputs) or *pipelines* (for putting all the steps in an efficient, customizable order) so on. You will be overwhelmed of all this. What I will do here is nothing more than putting it together so that it works for my problem (which can be challenging as well sometimes). Adapting it for your needs should be easier from this point on. 	
 
 <u>Data:</u>
 
-If you would like to do further analysis or produce alternate visualisations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons CC0 1.0 Universal (CC0 1.0) "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). The movies database doesn't even mention a licence and is from [Kaggle](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118/metadata). There you find a lot of more datasets and also coding examples for your studies. 
+If you would like to do further analysis or produce alternate visualizations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons CC0 1.0 Universal (CC0 1.0) "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). The movies database doesn't even mention a license and is from [Kaggle](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118/metadata). There you find a lot of more datasets and also coding examples for your studies. 
 
 ## 1. Movies Database Example
 
@@ -216,15 +220,15 @@ As said above, the *second example* is for being used in an IDE. If will use the
 
 ## 3. Step-by-step Python-Code for Machine Learning using "Apache Machine-Learning" Libary (Big Data)
 
-This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Various tutorials, documentation, "code-fragments" and guidelines can be found in the internet **for free**. 
+This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Various tutorials, documentation, "code-fragments" and guidelines can be found in the internet **for free**. The best is in my opinion the official documentation [here](https://spark.apache.org/docs/latest/ml-guide.html).
 
-Conerning "Big Data" I want to add the following: understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
+Concerning "Big Data" I want to add the following: understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
 
 Let's start with the structure, which I put into a mind map (you can download it from this repository). 
 
-![](./media/MindMap_SkLearn_and_Spark.jpeg)
+![](./media/MindMap_Spark.jpeg)
 
-There are differents ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of userfriendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
+There are different ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of userfriendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
 
 For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is "an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux." Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
 
@@ -252,15 +256,15 @@ The folder "data" contains the datasets. If you would like to do further analysi
 
 | Excurs to Big Data Visualization and K-Means Clustering Algorithm |
 | ------------------------------------------------------------ |
-| You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. <br /><br />Additionally I will work on this dataset to show how the **K-Means Clustering Algorithm** can be applied by using the Spark Marchine-Learning Libary. |
+| You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. <br /><br />Additionally I will work on this dataset to show how the **K-Means Clustering Algorithm** can be applied by using the Spark Marchine-Learning Libary (see more documentation [here](https://spark.apache.org/docs/latest/ml-clustering.html#k-means)). I will show how the "Vermont Vendor Payments" dataset can be clustered into different clusters. |
 
 
 
-When you open the Jupyter-Notebook, you will see, that Apache Spark Verison 3.0.0 and Hadoop Version 3.2 is installed:
+When you open the Jupyter-Notebook, you will see, that Apache Spark Version 3.0.0 and Hadoop Version 3.2 is installed:
 
 ![](./media/docker_jupyter_apache_spark.jpg)
 
-Initializing a Spark sessions works with the following commands: 
+Initializing a Spark sessions works and reading a CSV file can by done with the following commands (see more documentation [here](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.SparkSession) and also have a look at a ["Get Started Guide"](https://spark.apache.org/docs/latest/sql-getting-started.html#starting-point-sparksession)):
 
 ![](./media/docker_jupyter_initialize_spark.jpg)
 
@@ -268,19 +272,17 @@ After then the data-cleaning and data preparation (eliminating of null values, v
 
 ![](./media/docker_jupyter_persisting_data.jpg)
 
-I included some examples of how features can be extracted, transformed and selected in the Jupyter-Notebook. Just to mention a few here: the "StringIndexer", "OneHotEncoder" and "VectorAssembler" work as follows: 
+I included some examples of how features can be extracted, transformed and selected in the Jupyter-Notebook (see more documentation [here](https://spark.apache.org/docs/latest/ml-features.html)). Just to mention a few here: the ["StringIndexer"](https://spark.apache.org/docs/latest/ml-features.html#stringindexer), ["OneHotEncoder"](https://spark.apache.org/docs/latest/ml-features.html#onehotencoder) and ["VectorAssembler"](https://spark.apache.org/docs/latest/ml-features.html#vectorassembler) work as follows: 
 
 ![](./media/docker_jupyter_stringindexer.jpg)
 
 ![](./media/docker_jupyter_onehotencoder_vectorassembler.jpg)
 
-After having extracted, transformed and selected features you will want to apply some models, for example the "OLS Regression": 
+After having extracted, transformed and selected features you will want to apply some models, which are documented [here](https://spark.apache.org/docs/latest/ml-classification-regression.html), for example the ["OLS Regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#linear-regression)": 
 
 ![](./media/docker_jupyter_ordinary_least_square_regression.jpg)
 
-To summarize the whole coding structure have a look at this mind-map and structure below: 
-
-![](./media/MindMap_Spark.jpeg)
+To summarize the whole coding structure have a look at the following and also the provided mind-maps: 
 
 #### 0. Initialize Spark     
 
@@ -340,7 +342,7 @@ To summarize the whole coding structure have a look at this mind-map and structu
 
 #### 7. Minhash und Local-Sensitive-Hashing (LSH) 
 
-see: https://github.com/AndreasTraut/Deep_learning_explorations
+see example: https://github.com/AndreasTraut/Deep_learning_explorations
 
 #### 8. Alternative-Least-Square (ALS)    
 
@@ -352,11 +354,17 @@ see: https://github.com/AndreasTraut/Deep_learning_explorations
 
 ##### 8.4 Clustering of Users with K-Means 
 
-see https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark  
+see example: https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark  
 
 ##### 8.5 Perform a PCA and draw the 2-dim projection  
 
 
+
+## 4. Summary Mind-Map
+
+My mind map below may help you to structure your code: 
+
+![](./media/MindMap_SkLearn_and_Spark.jpeg)
 
 ---
 
