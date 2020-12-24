@@ -1,4 +1,4 @@
-​	Author: Andreas Traut  
+	Author: Andreas Traut  
 Date: 08.05.2020  (Updates 24.07.2020)  
 [Download as PDF](https://github.com/AndreasTraut/Machine-Learning-with-Python/raw/master/Machine-Learning-with-Python_AndreasTraut.pdf)
 
@@ -49,13 +49,13 @@ For <u>all</u> of these topics various tutorials, documentation, coding examples
 
 <u>Coding:</u> 
 
-If you Google for example *"how to prepare and clean the data with spark"*, you will find tons of documents around *removing null values* or *encoders* (like the OneHotEncoder for treating categorical inputs) or *pipelines* (for putting all the steps in an efficient, customizable order) so on. You will be overwhelmed of all this. What I will do here is nothing more than putting it together so that it works for my problem (which can be challenging as well sometimes). Adapting it for your needs should be easier from this point on. 	
+If you Google for example *"how to prepare and clean the data with spark"*, you will find tons of documents around *"removing null values"* or *"encoders"* (like the OneHotEncoder for treating categorical inputs) or *"pipelines"* (for putting all the steps in an efficient, customizable order) so on. You will be overwhelmed of all this. Some resources to mention are the [official documentation](https://spark.apache.org/docs/latest/ml-guide.html) and a few more Github repositories like e.g. [tirthajyoti/Spark-with-Python](https://github.com/tirthajyoti/Spark-with-Python) (MIT licence), [Apress/learn-pyspark](https://github.com/Apress/learn-pyspark) (Freeware License), [mahmoudparsian/pyspark-tutorial](https://github.com/mahmoudparsian/pyspark-tutorial) (Apache License v2.0). What I will do here in my repository is nothing more than putting it together so that it works for my problem (which can be challenging as well sometimes). Adapting it for your needs should be easier from this point on. 
 
 <u>Data:</u>
 
-If you would like to do further analysis or produce alternate visualizations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons CC0 1.0 Universal (CC0 1.0) "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). The movies database doesn't even mention a license and is from [Kaggle](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118/metadata). There you find a lot of more datasets and also coding examples for your studies. 
+If you would like to do further analysis or produce alternate visualizations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons 1.0 Universal "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). The movies database doesn't even mention a license and is from [Kaggle](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118/metadata). There you find a lot of more datasets and also coding examples for your studies. 
 
-## 1. Movies Database Example
+## I. Movies Database Example
 
 A good starting point for finding useful datasets is "Kaggle" (www.kaggle.com). I downloaded the movies dataset from [here](https://www.kaggle.com/isaactaylorofficial/imdb-10000-most-voted-feature-films-041118). The dataset from Kaggle contains the following columns:
 
@@ -64,39 +64,54 @@ Rank | Title | Year | Score | Metascore | Genre | Vote | Director | Runtime | **
 In this example I want to predict the **"Revenue"** based on the other information, which I have for each movie (e.g. every movie has a year, a scoring, a title ...). There are some "NaN"-values in the column "Revenue" and instead of filling them with an assumption (e.g. median-value) as I did in another Jupiter-Notebook (see [here](https://github.com/AndreasTraut/Machine-Learning-with-Python/blob/master/Movies%20Machine%20Learning%20-%20StratifiedSample.ipynb)), I wanted to predict these values. You might guess the conclusion already: predicting the revenue based on the available information as shown above (the columns) might not work. But essential to me is more to follow a well established standard-process of data-cleaning, data-preparing, model-training and error-calculation in this example in order to learn how to apply this process to better datasets, than the movies-dataset, later. 
 
 Therefore, here is how I approached the problem step-by-step: 
-- I separated the rows with "NaN"-values in column "Revenue"
+
+#### Separate "NaN"-values
+
+I separated the rows with "NaN"-values in column "Revenue"
 
 ![](./media/NaN_rows_in_Revenue.jpg)
 
-- I drew a stratified sample (based on "Revenue") on this remaining dataset and I received a training dataset and testing dataset:
+#### Draw a stratified sample
+
+I drew a stratified sample (based on "Revenue") on this remaining dataset and I received a training dataset and testing dataset:
 
 ![](./media/drew_stratified_sample.jpg)
 
 ![movies_train_test_nan](https://user-images.githubusercontent.com/55921277/79441450-87b98500-7fd7-11ea-80db-4630b1cbe123.png)
 
-- I created a pipeline to fill the "NaN"-value in other columns (e.g. "Metascore", "Score").
+#### Create a pipeline
+
+I created a pipeline to fill the "NaN"-value in other columns (e.g. "Metascore", "Score").
 
 ![](./media/create_pipeline.jpg)
 
 ![](./media/apply_pipeline.jpg)
 
-- used the training dataset and fittet it with the "DecisionTreeRegressor" model
+#### Fit the model
+
+I used the training dataset and fittet it with the "DecisionTreeRegressor" model
 
 ![](./media/fit_model_decisiontreeregresson.jpg)
 
-- verified with a cross-validation, how good this model/parameters are
+#### Cross-validation
+
+I verified with a cross-validation, how good this model/parameters are
 
 ![](./media/cross_validation.jpg)
 
-- did a prediction on a subset of the testing dataset and did a side-by-side comparison of prediction and true value
+#### Prediction 
+
+I did a prediction on a subset of the testing dataset and did a side-by-side comparison of prediction and true value
 
 ![](./media/side_by_side_comparison.jpg)
 
-- performed a prediction on the testing dataset and calculated the mean-squared error
+I performed a prediction on the testing dataset and calculated the mean-squared error
 
 ![](./media/calculate_mean_squared_error.jpg)
 
-**The conclusion of this machine learning example is** obvious: it is rather not possible to predict the "Revenue" based on the available information (the most useful numerical features were "year", "score", ... and the other categorical like "genre" don't seem to have much more added value in my opinion). 
+#### Conclusion 
+
+The conclusion of this machine learning example is obvious: it is rather not possible to predict the "Revenue" based on the available information (the most useful numerical features were "year", "score", ... and the other categorical like "genre" don't seem to have much more added value in my opinion). 
 
 Please find the complete Jupyter Notebook here: 
 
@@ -107,7 +122,7 @@ If you want to run the code immediately without installing the required "Jupyter
 https://beta.deepnote.com/project/754094f0-3c01-4c29-b2f3-e07f507da460
 
 
-## 2. Step-by-step Python-Code for Machine Learning using "scikit-learn"
+## II. Step-by-step Python-Code for Machine Learning using "scikit-learn"
 
 As said above, the *second example* is for being used in an IDE. If will use the ["Scikit-Learn"](https://scikit-learn.org/stable/) python machine learning library. As Jupyter Notebooks are not always the best environment for Python coding (e.g. Debugging), I extracted the most essential parts of Chapter 2 of Aurelien Geron "Machine Learning with Scikit-Learn & Tensorflow", sorted and arranged the code fragments slightly and created the following structured Python code for being used for example in the [Spyder-IDE](https://www.spyder-ide.org/). The structure of the Python code is a bit similar to the steps, which I followed in the Jupyter Notebooks above and are as follows (you will find these sections also in the ".py" file). Let's start with the "scikit-learn" ("SmallData", if you want): 
 
@@ -218,11 +233,15 @@ As said above, the *second example* is for being used in an IDE. If will use the
 ![](./media/11_evaluate_final_model.jpg)
 
 
-## 3. Step-by-step Python-Code for Machine Learning using "Apache Machine-Learning" Libary (Big Data)
+## III. Step-by-step Python-Code for Machine Learning using "Apache Machine-Learning" Libary (Big Data)
 
-This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Various tutorials, documentation, "code-fragments" and guidelines can be found in the internet **for free**. The best is in my opinion the official documentation [here](https://spark.apache.org/docs/latest/ml-guide.html).
+This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Data) environment and uses the ["Apache MLib"](https://spark.apache.org/mllib/) scalable machine learning library. Various tutorials, documentation, "code-fragments" and guidelines can be found in the internet **for free** (at least for your private use). The best is in my opinion the [official documentation](https://spark.apache.org/docs/latest/ml-guide.html). A few more helpful sources are the following Github repositories: 
 
-Concerning "Big Data" I want to add the following: understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training. Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
+- [tirthajyoti/Spark-with-Python](https://github.com/tirthajyoti/Spark-with-Python) (MIT licence)
+- [Apress/learn-pyspark](https://github.com/Apress/learn-pyspark) (Freeware License)
+- [mahmoudparsian/pyspark-tutorial](https://github.com/mahmoudparsian/pyspark-tutorial) (Apache License v2.0)
+
+Concerning the topic **"Big Data"** I want to add the following: I passed a certification as *"Data Scientist Specialized in Big Data Analytics"*. I must say: Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training! Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
 
 Let's start with the structure, which I put into a mind map (you can download it from this repository). 
 
@@ -230,7 +249,7 @@ Let's start with the structure, which I put into a mind map (you can download it
 
 There are different ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of userfriendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
 
-For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is "an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux." Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
+For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is *"an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux."* Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
 
 I shared my code and developments on Docker-Hub in the following repository [here](https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark). After having installed the Docker application you will need to pull my "machine-learning-pyspark" image to your computer: 
 
@@ -360,7 +379,7 @@ see example: https://hub.docker.com/repository/docker/andreastraut/machine-learn
 
 
 
-## 4. Summary Mind-Map
+## IV. Summary Mind-Map
 
 My mind map below may help you to structure your code: 
 
