@@ -9,21 +9,19 @@ Date: 08.05.2020  (Updates 24.07.2020)
 
 ## 0. Introduction
 
-### a) Aim of this repository
+### a) Aim of this repository: "Small Data" versus "Big Data"
 
-After having learnt visualization techniques in Python (which I showed in my repository "Visualization-of-Data-with-Python", see https://github.com/AndreasTraut/Visualization-of-Data-with-Python) I started working on different datasets with the aim to apply machine learning algorithms (e.g. [Decision Tree](https://de.wikipedia.org/wiki/Entscheidungsbaum) to name only one). 
+After having learnt visualization techniques in Python (which I showed in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python)), I started working on different datasets with the aim to learn and apply machine learning algorithms. As I was particularly interested in better understanding the **differences and similarities of "Small Data" (Scikit-Learn) approaches versus the "Big Data" (Spark) approaches**, I tried to focus more on this "comparison" question instead of digging into too much details of each of these approaches. 
 
-In my *first example* in this repository here I will use [Jupyter-Notebooks](https://jupyter.org/), which is a widespread standard today. The first Jupyter-Notebooks have been developed 5 years ago (in 2015). Since my first programming experience was more than 25 years ago (I started with [GW-Basic](https://de.wikipedia.org/wiki/GW-BASIC) then [Turbo-Pascal](https://de.wikipedia.org/wiki/Turbo_Pascal) and so on...) I quickly learnt the advantages of using Jupyter-Notebooks. 
-
-**But** I missed the comfort of an [IDE](https://de.wikipedia.org/wiki/Integrierte_Entwicklungsumgebung) from the very first days!
-
-Therefore: in my examples in this repository here I will also work with Python ".py" files. These ".py" can be executed in an IDE, like e.g. Spyder-IDE (see https://www.spyder-ide.org/)
-
-![](./media/spyder.jpg)
+I will use [Jupyter-Notebooks](https://jupyter.org/), which is a widespread standard today. The first Jupyter-Notebooks have been developed 5 years ago (in 2015). Since my first programming experience was more than 25 years ago (I started with [GW-Basic](https://de.wikipedia.org/wiki/GW-BASIC) then [Turbo-Pascal](https://de.wikipedia.org/wiki/Turbo_Pascal) and so on...) I quickly learnt the advantages of using Jupyter-Notebooks. **But** I missed the comfort of an [IDE](https://de.wikipedia.org/wiki/Integrierte_Entwicklungsumgebung) from the very first days!
 
 ### b) Motivation for IDEs
 
 Why is it important for me to mention the IDEs out so early in a learning process? In my opinion Jupyter-Notebooks are good for the first examinations of data and for documenting procedures and up to a certain degree also for sophisticated data science. But it might be a good idea to learn very early how to work with an IDE. Think about how to use what has been developed so far later in a bigger environment (for example a [Lambda-Architecture](https://de.wikipedia.org/wiki/Apache_Hadoop#Lambda-Architektur), but you can take whatever other environment, which requires robustness&stability). I point this out here, because after having read several e-Books and having participated in seminars I see that IDEs are not in the focus.  
+
+Therefore: in my examples in this repository here I will also work with Python ".py" files. These ".py" can be executed in an IDE, like e.g. [Spyder-IDE](https://www.spyder-ide.org/), which can be downloaded for free and looks like this: 
+
+![](./media/spyder.jpg)
 
 ### c) Structure of this repository
 
@@ -31,17 +29,19 @@ Why is it important for me to mention the IDEs out so early in a learning proces
 
 Therefore the *first example* uses a [Jupyter-Notebook](https://jupyter.org/) in order to learn the standard procedures (e.g. data-cleaning & preparing, model-training,...). 
 
-#### (ii) Second part ("small data")
+#### (ii) Second part ("Small Data")
 
-The *second example* is for being used in an IDE (developer environment), like the [Spyder-IDE](https://www.spyder-ide.org/) from the [Anaconda distribution](https://www.anaconda.com/) and apply the ["Scikit-Learn Python Machine Learning Library"](https://scikit-learn.org/stable/)  (you may call this example a "small data" example if you want). I will show you a typical structure for a machine-learning example and put it into a mind-map. The same structure will be applied on the third example. 
+The *second example* is for being used in an IDE (developer environment), like the [Spyder-IDE](https://www.spyder-ide.org/) from the [Anaconda distribution](https://www.anaconda.com/) and apply the ["Scikit-Learn Python Machine Learning Library"](https://scikit-learn.org/stable/)  (you may call this example a "Small Data" example if you want). I will show you a typical structure for a machine-learning example and put it into a mind-map. The same structure will be applied on the third example. 
 
-#### (iii) Third part ("big data")
+#### (iii) Third part ("Big Data")
 
-The *third example* is a "Big Data" example and will use a [Docker environment](https://www.docker.com/) and apply the ["Apache Machine Learning Library"](https://spark.apache.org/mllib/), a scalable machine learning library. The mind-map from the second part will be extended and aligned to the second example. In this example I also show some Big Data Visualizations techniques and also show how the K-Means Clustering Algorithm can be applied by using Apache Spark ML. 
+The *third example* is a "Big Data" example and will use a [Docker environment](https://www.docker.com/) and apply the ["Apache Machine Learning Library"](https://spark.apache.org/mllib/), a scalable machine learning library. The mind-map from the second part will be extended and aligned to the second example. 
+
+In this example I also show some *Big Data Visualizations techniques*, show how the *K-Means Clustering Algorithm in Apache Spark ML* works and explain the *Map-Reduce* programming model on a Word-Count example. 
 
 #### (iv) Summary mind-map
 
-I provide a summary mind-map, which possibly helps you to structure your code. Many steps in the "Skikit-Learn" example and the "Apache MLib" example are very similar and repeating. 
+I provide a summary mind-map, which possibly helps you to structure your code. 
 
 ### d) Future learnings and coding & data sources 
 
@@ -65,13 +65,13 @@ In this example I want to predict the **"Revenue"** based on the other informati
 
 Therefore, here is how I approached the problem step-by-step: 
 
-#### Separate "NaN"-values
+#### 1. Separate "NaN"-values
 
 I separated the rows with "NaN"-values in column "Revenue"
 
 ![](./media/NaN_rows_in_Revenue.jpg)
 
-#### Draw a stratified sample
+#### 2. Draw a stratified sample
 
 I drew a stratified sample (based on "Revenue") on this remaining dataset and I received a training dataset and testing dataset:
 
@@ -79,7 +79,7 @@ I drew a stratified sample (based on "Revenue") on this remaining dataset and I 
 
 ![movies_train_test_nan](https://user-images.githubusercontent.com/55921277/79441450-87b98500-7fd7-11ea-80db-4630b1cbe123.png)
 
-#### Create a pipeline
+#### 3. Create a pipeline
 
 I created a pipeline to fill the "NaN"-value in other columns (e.g. "Metascore", "Score").
 
@@ -87,19 +87,19 @@ I created a pipeline to fill the "NaN"-value in other columns (e.g. "Metascore",
 
 ![](./media/apply_pipeline.jpg)
 
-#### Fit the model
+#### 4. Fit the model
 
 I used the training dataset and fittet it with the "DecisionTreeRegressor" model
 
 ![](./media/fit_model_decisiontreeregresson.jpg)
 
-#### Cross-validation
+#### 5. Cross-validation
 
 I verified with a cross-validation, how good this model/parameters are
 
 ![](./media/cross_validation.jpg)
 
-#### Prediction 
+#### 6. Prediction 
 
 I did a prediction on a subset of the testing dataset and did a side-by-side comparison of prediction and true value
 
@@ -109,7 +109,7 @@ I performed a prediction on the testing dataset and calculated the mean-squared 
 
 ![](./media/calculate_mean_squared_error.jpg)
 
-#### Conclusion 
+#### 7. Conclusion 
 
 The conclusion of this machine learning example is obvious: it is rather not possible to predict the "Revenue" based on the available information (the most useful numerical features were "year", "score", ... and the other categorical like "genre" don't seem to have much more added value in my opinion). 
 
@@ -133,8 +133,6 @@ As said above, the *second example* is for being used in an IDE. If will use the
 ##### 1.1 Alternative 1: generate id with static data
 
 ![](./media/1_1_generate_id_with_static_data.jpg)
-
-
 
 ##### 1.2 Alternative 2: generate stratified sampling
 
@@ -241,9 +239,9 @@ This will be an example for a ["Big-Data"](https://de.wikipedia.org/wiki/Big_Dat
 - [Apress/learn-pyspark](https://github.com/Apress/learn-pyspark) (Freeware License)
 - [mahmoudparsian/pyspark-tutorial](https://github.com/mahmoudparsian/pyspark-tutorial) (Apache License v2.0)
 
-Concerning the topic **"Big Data"** I want to add the following: I passed a certification as *"Data Scientist Specialized in Big Data Analytics"*. I must say: Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training! Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. 
+Concerning the topic **"Big Data"** I want to add the following: I passed a certification as *"Data Scientist Specialized in Big Data Analytics"*. I must say: Understanding the concept of "Big-Data" and how to differenciate "standard" machine learning from a "scalable" environment is not easy. I recommend a separate training! Some steps are a bit similar to "scikit-learn" (e.g. data-cleaning, preprocessing), but the technical environment for running the code is different and also the code itself is different. I will add a "Digression (Excurs)" at the end of this document which covers the topics *"Big Data Visualization"*, *"K-Means-Clustering in Spark"* and *"Map-Reduce"* (which is one of the [powerful programming models for Big Data](https://de.wikipedia.org/wiki/MapReduce)). 
 
-Let's start with the structure, which I put into a mind map (you can download it from this repository). 
+Let's start with the structure, which I put into a mind map (you can download it from this repository). I aligned the structure to the SkLearn mind map above in order to learn from each of this two approaches. 
 
 ![](./media/MindMap_Spark.jpeg)
 
@@ -271,51 +269,41 @@ After having opened your browser (e.g. Firefox-Browser), navigate to "localhost:
 
 The folder "data" contains the datasets. If you would like to do further analysis or produce alternate visualisations of the Airbnb-data, you can download them from [here](http://insideairbnb.com/get-the-data.html). It is available below under a [Creative Commons CC0 1.0 Universal (CC0 1.0) "Public Domain Dedication"](http://creativecommons.org/publicdomain/zero/1.0/) license. The data for the Vermont-Vendor-Payments can be downloaded from [here](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3) and are available under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/1.0/). 
 
-![](./media/docker_localhost_data.jpg)
-
-| Excurs to Big Data Visualization and K-Means Clustering Algorithm |
-| ------------------------------------------------------------ |
-| You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. <br /><br />Additionally I will work on this dataset to show how the **K-Means Clustering Algorithm** can be applied by using the Spark Marchine-Learning Libary (see more documentation [here](https://spark.apache.org/docs/latest/ml-clustering.html#k-means)). I will show how the "Vermont Vendor Payments" dataset can be clustered. Here every color represents a differents cluster: <br /><br />![](./media/k-means_clustering_DepAmount_NonScaled.png)![](./media/k-means_clustering_StateAmount_Scaled.png)![](./media/k-means_clustering_StateDep_NonScaled.png)<br /><br />The first plot shows 4 clusters, each in a different color. For example the violet cluster has values beween 0 and about 0.8 * 10e9 and 2.5 * 10e9. I will show you, how this can be calculated and visualized based on the 298 MB / 1.6 million lines of data. |
-
-
-
-When you open the Jupyter-Notebook, you will see, that Apache Spark Version 3.0.0 and Hadoop Version 3.2 is installed:
+![](./media/docker_localhost_data.jpg)When you open the Jupyter-Notebook, you will see, that Apache Spark Version 3.0.0 and Hadoop Version 3.2 is installed:
 
 ![](./media/docker_jupyter_apache_spark.jpg)
 
+#### 0. Initialize Spark
+
 Initializing a Spark sessions works and reading a CSV file can by done with the following commands (see more documentation [here](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.SparkSession) and also have a look at a ["Get Started Guide"](https://spark.apache.org/docs/latest/sql-getting-started.html#starting-point-sparksession)):
 
-![](./media/docker_jupyter_initialize_spark.jpg)
+![](./media/docker_jupyter_initialize_spark1.jpg)
 
-After then the data-cleaning and data preparation (eliminating of null values, visualization techniques) work pretty similar to the "Small data" (Sklearn) approach. If you want to persist (=save) your intermediate you can do it as follows: 
+##### 0.1 Create Spark Context and  Spark Session
+
+![](./media/docker_jupyter_initialize_spark2.jpg)
+
+##### 0.2 Read CSV
+
+![](./media/docker_jupyter_initialize_spark3.jpg)
+
+##### 0.3 Dataset Properties and some Select, Group and Aggregate Methods
+
+After then the data-cleaning and data preparation (eliminating of null values, visualization techniques) work pretty similar to the "Small data" (Sklearn) approach. 
+
+##### 0.4 Write as Parquet or CSV
+
+If you want to persist (=save) your intermediate you can do it as follows: 
 
 ![](./media/docker_jupyter_persisting_data.jpg)
 
-I included some examples of how features can be extracted, transformed and selected in the Jupyter-Notebook (see more documentation [here](https://spark.apache.org/docs/latest/ml-features.html)). Just to mention a few here: the ["StringIndexer"](https://spark.apache.org/docs/latest/ml-features.html#stringindexer), ["OneHotEncoder"](https://spark.apache.org/docs/latest/ml-features.html#onehotencoder) and ["VectorAssembler"](https://spark.apache.org/docs/latest/ml-features.html#vectorassembler) work as follows: 
+##### 0.5 Read Parquet
 
-![](./media/docker_jupyter_stringindexer.jpg)
+See jupyter notebook. 
 
-![](./media/docker_jupyter_onehotencoder_vectorassembler.jpg)
+##### 0.6 How to stop a Spark Session and Spark Context
 
-After having extracted, transformed and selected features you will want to apply some models, which are documented [here](https://spark.apache.org/docs/latest/ml-classification-regression.html), for example the ["OLS Regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#linear-regression)": 
-
-![](./media/docker_jupyter_ordinary_least_square_regression.jpg)
-
-To summarize the whole coding structure have a look at the following and also the provided mind-maps: 
-
-#### 0. Initialize Spark     
-
-##### 0.1 Create Spark Context and Spark Session  
-
-##### 0.2 Read CSV  
-
-##### 0.3 Dataset Properties and some Select, Group and Aggregate Methods  
-
-##### 0.4 Write as Parquet or CSV  
-
-##### 0.5 Read Parquet  
-
-##### 0.6 How to stop a Spark Session and Spark Context  
+See jupyter notebook. 
 
 #### 1. Cleaning the data     
 
@@ -333,9 +321,17 @@ To summarize the whole coding structure have a look at the following and also th
 
 ##### 2.1 StringIndexer  
 
+I included some examples of how features can be extracted, transformed and selected in the Jupyter-Notebook (see more documentation [here](https://spark.apache.org/docs/latest/ml-features.html)). Just to mention a few here: the ["StringIndexer"](https://spark.apache.org/docs/latest/ml-features.html#stringindexer), ["OneHotEncoder"](https://spark.apache.org/docs/latest/ml-features.html#onehotencoder) and ["VectorAssembler"](https://spark.apache.org/docs/latest/ml-features.html#vectorassembler) work as follows: 
+
+![](./media/docker_jupyter_stringindexer.jpg)
+
 ##### 2.2 OntHotEncoder  
 
+![](./media/docker_jupyter_onehotencoder_vectorassembler1.jpg)
+
 ##### 2.3 VectorAssembler  
+
+![](./media/docker_jupyter_onehotencoder_vectorassembler2.jpg)
 
 ##### 2.4 CountVectorizer  
 
@@ -352,6 +348,10 @@ To summarize the whole coding structure have a look at the following and also th
 #### 6. Apply models and evaluate    
 
 ##### 6.1 Ordinary Least Square Regression  
+
+After having extracted, transformed and selected features you will want to apply some models, which are documented [here](https://spark.apache.org/docs/latest/ml-classification-regression.html), for example the ["OLS Regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#linear-regression)": 
+
+![](./media/docker_jupyter_ordinary_least_square_regression.jpg)
 
 ##### 6.2 Ridge Regression  
 
@@ -377,11 +377,15 @@ see example: https://hub.docker.com/repository/docker/andreastraut/machine-learn
 
 ##### 8.5 Perform a PCA and draw the 2-dim projection  
 
+### Digression (Excurs)
 
+|      | Digression (Excurs) to Big Data Visualization and K-Means Clustering Algorithm and Map-Reduce |
+| ---- | :----------------------------------------------------------- |
+|      | **Visualization:** You will see a Jupyter-Notebook (which contains the Machine-Learning Code) and a folder named "data" (which contains the raw-data and preprocessed data). As you can see: I also worked on a 298 MB big csv-file (["Vermont_Vendor_Payments.csv"](https://data.vermont.gov/Finance/Vermont-Vendor-Payments/786x-sbp3)), which I coulnd't open in Excel, because of the huge size. This file contains a list of all state of Vermont payments to vendors (Open Data Commons Licence) and has  more than 1.6 million lines (exactly 1'648'466 lines). I already mentionned in my repository ["Visualization-of-Data-with-Python"](https://github.com/AndreasTraut/Visualization-of-Data-with-Python), that the **visualization of big datasets** can be difficult when using "standard" office tools, like Excel. If you are not able to open such csv-files in Excel you have to find other solutions. One is to use PySpark which I will show you here. Another solution would have been to use the Excel built-in connection, [PowerQuery](https://support.microsoft.com/de-de/office/einf%C3%BChrung-in-microsoft-power-query-f%C3%BCr-excel-6e92e2f4-2079-4e1f-bad5-89f6269cd605) or something similar, maybe Access or whatever, which is not the topic here, because we also want to be able to apply machine-learning algorithms from the  [Spark Machine Learning Library](https://spark.apache.org/mllib/). And there are more benefits of using PySpark instead of Excel: it can handle distributed processing, it's a lot faster, you can use pipelines, it can read many file systems (not only csv), it can process real-time data. <br /><br />**K-Means:** Additionally I will work on this dataset to show how the **K-Means Clustering Algorithm** can be applied by using the Spark Marchine-Learning Libary (see more documentation [here](https://spark.apache.org/docs/latest/ml-clustering.html#k-means)). I will show how the "Vermont Vendor Payments" dataset can be clustered. Here every color represents a differents cluster: <br /><br />![](./media/k-means_clustering_DepAmount_NonScaled_small.png)![](./media/k-means_clustering_StateAmount_Scaled_small.png)![](./media/k-means_clustering_StateDep_NonScaled_small.png)<br /><br />The first plot shows 4 clusters, each in a different color. For example the violet cluster has values beween 0 and about 0.8 * 10e9 and 2.5 * 10e9. I will show you, how this can be calculated and visualized based on the 298 MB / 1.6 million lines of data.<br /><br />**Map-Reduce: ** This is a programming model for generating big data sets with parallel distributed algorithm on a cluster. I was interested in this and added some Jupyter-Notebooks to better understand how it works. Learn the basis of the *Map-Reduce* programming model from [here](https://de.wikipedia.org/wiki/MapReduce) and have a look into my jupyter notebook for details. I worked on the very popular "Word Count" example in order to explain Map-Reduce. <br /><br /> |
 
 ## IV. Summary Mind-Map
 
-My mind map below may help you to structure your code: 
+To summarize the whole coding structure have a look at the following and also the provided mind-maps. My mind map below may help you to structure your code: 
 
 ![](./media/MindMap_SkLearn_and_Spark.jpeg)
 
