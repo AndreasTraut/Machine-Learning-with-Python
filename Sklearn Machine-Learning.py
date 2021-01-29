@@ -4,13 +4,14 @@ Created on Fri Mar 27 15:02:33 2020
 
 This example provides essential code fragments, for Machine Learning in Sklearn. 
 
-It is based on "Kapitel 2" of the book "Praxiseinstieg Machine Learning mit 
-Scikit-Learn und Tensorflow" from Aurelien Geron. This code does NOT work unless
-you have Python installed and adapted the code below do your specific 
-input-dataset (e.g. renamed the columns accordingly, adapted the cleaning 
-methods according to your input-dataset...). 
+It is based on "Chapter 2" of the book "Praxiseinstieg Machine Learning mit 
+Scikit-Learn und Tensorflow" from Aurelien Geron. He provided some Jupyter-Notebooks
+under the Apache License 2.0, which I sorted, adapted and modified. 
+
+This code does NOT work unless you have Python installed. 
 
 @author: Andreas Traut
+@date: 27.03.2020
 
 #%% #######################################################################
 # 1. create index   
@@ -78,7 +79,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.externals import joblib
+import joblib
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import randint
