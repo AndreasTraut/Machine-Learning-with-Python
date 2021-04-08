@@ -132,11 +132,47 @@ https://beta.deepnote.com/project/754094f0-3c01-4c29-b2f3-e07f507da460
 
 In my opinion Jupyter Notebooks are **not** always the best environment for learning to code! I agree, that Jupyter Notebooks are nice for doing documentation of python code. It really looks beautiful. But I prefer debugging in an IDE instead of a Jupyter Notebook: having the possibility to set a breakpoint can be a pleasure for my nerves, specially if you have longer programs. Some of my longer Jupyter Notebooks feel from the hundreds line of code onwards more like pain than like anything helpful. And I also prefer having a "help window" or a "variable explorer", which is smoothly integrated into the IDE user interface. And there are a lot more advantages why getting familiar with an IDE is a big advantage compared to the very popular Jupyter Notebooks! I am very surprised, that everyone is talking about Jupyter Notebooks but IDEs are only mentioned very seldom. But maybe my preferences are also a bit different, because I grew up in a [MS-DOS](https://de.wikipedia.org/wiki/MS-DOS) environment. :-) 
 
-I choose in this *second example* the [Spyder-IDE](https://www.spyder-ide.org/) and worked on "[Scikit-Learn](https://scikit-learn.org/stable/)", a very popular python machine learning library. The basis of this code are some Jupyter-Notebooks, which Aurelien Geron provided (under the Apache License 2.0) in his book "Machine Learning with Scikit-Learn & Tensorflow". But as I didn't like at all that his code are Jupyter Notebooks (how can you re-use it efficiently for your own purposes?), so I wanted to work on it: I extracted the most essential parts of chapter 2, then sorted, arranged and modified the code fragments and created the following structured Python code. The structure of the Python code is a bit similar to the steps, which I followed in the Movies Database example above (you will find these sections also in the ".py" file). 
+I choose in this *second example* the [Spyder-IDE](https://www.spyder-ide.org/) and worked on "[Scikit-Learn](https://scikit-learn.org/stable/)", a very popular python machine learning library. The structure of the Python code is a bit similar to the steps, which I followed in the Movies Database example above (you will find these sections also in the ".py" file). 
 
 So let's start with the "scikit-learn" ("SmallData", if you want). I will align this structure to the Spark "Big Data" mind map below in order to learn from each of this two approaches. 
 
 ![](./media/MindMap_SkLearn.jpeg)
+
+```python
+#%% #######################################################################
+# 1. create index   
+	# 1.1 Alternative 1: generate id with static data
+	# 1.2 Alternative 2: generate stratified sampling
+	# 1.3 verify if stratified example is good
+# 2. Discover and visualize the data to gain insights
+# 3. prepare for Machine Learning
+	# 3.1 find all NULL-values
+	# 3.2 remove all NULL-values
+# 4. Use "Imputer" to clean NaNs
+# 5. treat "categorial" inputs
+# 6. custom transformer and pipelines
+	# 6.1 custom transformer
+	# 6.2 pipelines
+# 7. select and train model
+	# 7.1 LinearRegression model
+	# 7.2 DecisionTreeRegressor model
+# 8. crossvalidation 
+	# 8.1 for DecisionTreeRegressor
+	# 8.2 for LinearRegression
+	# 8.3 for RandomForestRegressor
+	# 8.4 for ExtraTreesRegressor
+# 9. Save Model
+# 10. Optimize Model
+	# 10.1 GridSearchCV
+		# 10.1.1 GridSearchCV on RandomForestRegressor
+		# 10.1.2 GridSearchCV on LinearRegressor
+	# 10.2 Randomized Search
+	# 10.3 Analyze best models
+# 11. Evaluate final model on test dataset
+#%% #######################################################################
+```
+
+I aligned this "Small Data" structure to the Apache Spark "Big Data" structure in order to learn from each of this two approaches. Finally I will put these two Mind Maps into one big which you can take as a guide to navigate through all of your machine-learning problems.  
 
 #### 1. create index   
 
