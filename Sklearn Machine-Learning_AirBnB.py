@@ -6,45 +6,47 @@ Created on Fri Mar 27 15:02:33 2020
 @date: 07.04.2021
 
 #%% #######################################################################
-# 1. create index   
-	# 1.1 Alternative 1: generate id with static data
-	# 1.2 Alternative 2: generate stratified sampling
-	# 1.3 verify if stratified example is good
+# 1. Initialize and Read the CSV File
 
-# 2. Discover and visualize the data to gain insights
+# S. Split Training Data and Test Data  
+	# S.1 Alternative 1: generate id with static data
+	# S.2 Alternative 2: generate stratified sampling
+	# S.3 verify if stratified sample is good
 
-# 3. prepare for Machine Learning
+# 2. Discover and Visualize the Data to Gain Insights
+
+# 3. Clean NULL-Values and Prepare for Machine Learning
 	# 3.1 find all NULL-values
 	# 3.2 remove all NULL-values
 
-# 4. Use "Imputer" to clean NaNs
+# 4. Model-Specific Preprocessing
+    # 4.1 Use "Imputer" to clean NaNs
+    # 4.2 Treat "Categorial" Inputs
 
-# 5. treat "categorial" inputs
+# 5. Pipelines and Custom Transformer
+	# 5.1 Custom Transformer
+	# 5.2 Pipelines
 
-# 6. custom transformer and pipelines
-	# 6.1 custom transformer
-	# 6.2 pipelines
+# 6. Select and Train Model
+	# 6.1 LinearRegression model
+	# 6.2 DecisionTreeRegressor model
 
-# 7. select and train model
-	# 7.1 LinearRegression model
-	# 7.2 DecisionTreeRegressor model
+# 7. Crossvalidation 
+	# 7.1 for DecisionTreeRegressor
+	# 7.2 for LinearRegression
+	# 7.3 for RandomForestRegressor
+	# 7.4 for ExtraTreesRegressor
 
-# 8. crossvalidation 
-	# 8.1 for DecisionTreeRegressor
-	# 8.2 for LinearRegression
-	# 8.3 for RandomForestRegressor
-	# 8.4 for ExtraTreesRegressor
+# 8. Save Model
 
-# 9. Save Model
+# 9. Optimize Model
+	# 9.1 GridSearchCV
+		# 9.1.1 GridSearchCV on RandomForestRegressor
+		# 9.1.2 GridSearchCV on LinearRegressor
+	# 9.2 Randomized Search
+	# 9.3 Analyze Best Models
 
-# 10. Optimize Model
-	# 10.1 GridSearchCV
-		# 10.1.1 GridSearchCV on RandomForestRegressor
-		# 10.1.2 GridSearchCV on LinearRegressor
-	# 10.2 Randomized Search
-	# 10.3 Analyze best models
-
-# 11. Evaluate final model on test dataset
+# 10. Evaluate Final Model on Test Dataset
 #%% #######################################################################
 """
 
@@ -76,6 +78,11 @@ from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import randint
 from scipy import stats
 
+#%% #######################################################################
+#
+# =============================================================================
+# # 1. initialize and read the file
+# =============================================================================
 #%%
 # Where to save the figures
 PROJECT_ROOT_DIR = "."
@@ -117,7 +124,7 @@ myDataset = myDataset.drop("id", axis=1)
 #%% #######################################################################
 #
 # =============================================================================
-# # 1. create index 
+# # 1. Split Training Data and Test Data 
 # =============================================================================
 print("\n\n1. create index\n")
 
@@ -134,15 +141,15 @@ def split_train_test_by_id(data, test_ratio, id_column):
     return data.loc[~in_test_set], data.loc[in_test_set]
 
 #%%
-# 1.1 Alternative 1: generate id with static data
+# S.1 Alternative 1: generate id with static data
 print("\n1.1 Alternative 1: generate id with static data\n")
 
-myDataset_with_id["id"] = round(myDataset["longitude"],2) * 10000 + myDataset["latitude"]
-train_set, test_set = split_train_test_by_id(myDataset_with_id, 0.2, "id")
+myDataset_with_id["index"] = round(myDataset["longitude"],2) * 10000 + myDataset["latitude"]
+train_set, test_set = split_train_test_by_id(myDataset_with_id, 0.2, "index")
 print(myDataset_with_id.head())
 
 #%%
-# 1.2 Alternative 2: generate stratified sampling
+# S.2 Alternative 2: generate stratified sampling
 # Requirement:  from sklearn.model_selection import StratifiedShuffleSplit
 print("\n1.2 Alternative 2: generate stratified sampling\n")
 
@@ -162,8 +169,8 @@ print("\nstrat_test_set\n", strat_test_set["price_cat"].value_counts() / len(str
 print("\nmyDataset\n", myDataset["price_cat"].value_counts() / len(myDataset))
 
 #%% 
-# 1.3 verify if stratified example is good 
-print("\n1.3 verify if stratified example is good \n")
+# S.3 verify if stratified example is good 
+print("\n1.3 verify if stratified sample is good \n")
 
 def price_cat_proportions(data):
     return data["price_cat"].value_counts() / len(data)
@@ -187,7 +194,7 @@ for set_ in (strat_train_set, strat_test_set):
 #%% #######################################################################
 #
 # =============================================================================
-# # 2. Discover and visualize the data to gain insights
+# # 2. Discover and Visualize the Data to Gain Insights
 # =============================================================================
 # Requirement: from pandas.plotting import scatter_matrix
 print("\n\n2. Discover and visualize the data to gain insights \n")
@@ -214,7 +221,7 @@ print("correlation:\n", corr_matrix["price"].sort_values(ascending=False))
 #%% #######################################################################
 #
 # =============================================================================
-# # 3. prepare for Machine Learning
+# # 3. Clean NULL-Values and Prepare for Machine Learning
 # =============================================================================
 print("\n\n3. prepare for Machine Learning\n")
 
@@ -224,11 +231,11 @@ myDataset_labels = strat_train_set["price"].copy()
 # 3.1 find all NULL-values
 print("\n3.1 find all NULL-values\n")
 
-print("\nHow many Non-Null rows are there?\n")
+print("\nHow many Non-NULLrows are there?\n")
 print(myDataset.info())
-print("\nAre there NaN values in the columns?\n", myDataset.isnull().any())
-print("\nAre there NaNs in column reviews_per_month?\n", myDataset["reviews_per_month"].isnull().any())
-print("\nShow some rows with NaN (head only):\n", myDataset[myDataset["reviews_per_month"].isnull()].head())
+print("\nAre there NULL values in the columns?\n", myDataset.isnull().any())
+print("\nAre there NULLs in column reviews_per_month?\n", myDataset["reviews_per_month"].isnull().any())
+print("\nShow some rows with NULL (head only):\n", myDataset[myDataset["reviews_per_month"].isnull()].head())
 
 #%%
 # 3.2 remove all NULL-values
@@ -251,11 +258,13 @@ print("sample_incomplete_rows\n", sample_incomplete_rows['reviews_per_month'].he
 #%% #######################################################################
 #
 # =============================================================================
-# # 4. Use "Imputer" to clean NaNs
+# # 4. Model-Specific Preprocessing
 # =============================================================================
+
+# 4.1 Use "Imputer" to Clean NaN
 # Requirement:  from sklearn.impute import SimpleImputer 
-print("\n\n4. Use Imputer \n")
-    
+print("\n\n4.1. Use Imputer to Clean NaN\n")
+
 imputer = SimpleImputer(strategy="median")
 myDataset_num = myDataset.select_dtypes(include=[np.number]) #or: myDataset_num = myDataset.drop('ocean_proximity', axis=1) 
 imputer.fit(myDataset_num)
@@ -268,33 +277,31 @@ myDataset_tr = pd.DataFrame(X, columns=myDataset_num.columns,
                           index=myDataset.index)
 myDataset_tr.loc[sample_incomplete_rows.index.values]
 
-#%% #######################################################################
-#
-# =============================================================================
-# # 5. treat "categorial" inputs
-# =============================================================================
+#%%
+# 4.2 Treat "Categorial" Inputs
 # Requirement: from sklearn.preprocessing import OneHotEncoder
-print("\n\n5. treat categorial inputs\n")
+print("\n\n4.1. Treat Categorial Inputs\n")
+
 
 myDataset_cat = myDataset[['room_type']]
 print("myDataset_cat.head\n", myDataset_cat.head(10), "\n")
 
 cat_encoder = OneHotEncoder()
 myDataset_cat_1hot = cat_encoder.fit_transform(myDataset_cat)
-print("cat_encoder.categories_:\n", cat_encoder.categories_)
-print("myDataset_cat_1hot.toarray():\n", myDataset_cat_1hot.toarray())
-print("myDataset_cat_1hot:\n", myDataset_cat_1hot)
+print("\ncat_encoder.categories_:\n", cat_encoder.categories_)
+print("\nmyDataset_cat_1hot.toarray():\n", myDataset_cat_1hot.toarray())
+print("\nmyDataset_cat_1hot:\n", myDataset_cat_1hot)
 
 #%% #######################################################################
 #
 # =============================================================================
-# # 6. custom transformer and pipelines
+# # 5. Pipelines and Custom Transformer
 # =============================================================================
-print("\n\n 6. custom transformer and pipelines \n")
+print("\n\n 5. custom transformer and pipelines \n")
 
-# 6.1 custom transformer
+# 5.1 custom transformer
 # Requirement: from sklearn.preprocessing import FunctionTransformer
-print("6.1 custom transformer\n")
+print("5.1 custom transformer\n")
 
 print("myDataset.columns\n", myDataset_num.columns)
 number_of_reviews_ix, availability_365_ix, calculated_host_listings_count_ix, reviews_per_month_ix = [
@@ -315,18 +322,18 @@ myDataset_extra_attribs = pd.DataFrame(
 print("myDataset_extra_attribs.head()\n", myDataset_extra_attribs.head())
 
 #%%
-# 6.2 pipelines
+# 5.2 Pipelines
 # Requirements: from sklearn.pipeline import Pipeline
 #               from sklearn.preprocessing import StandardScaler
 #               from sklearn.compose import ColumnTransformer
-print("6.2 pipelines \n")
+print("5.2 Pipelines \n")
 
 num_pipeline = Pipeline([
         ('imputer', SimpleImputer(strategy="median")),
         ('attribs_adder', FunctionTransformer(add_extra_features, 
                                               validate=False)),
-        ('std_scaler', StandardScaler()),
-    ])
+        ('std_scaler', StandardScaler())
+        ])
 myDataset_num_tr = num_pipeline.fit_transform(myDataset_num)
 print("myDataset_num_tr\n", myDataset_num_tr)
 
@@ -343,14 +350,14 @@ print("myDataset_prepared\n", myDataset_prepared)
 #%% #######################################################################
 #
 # =============================================================================
-# # 7. select and train model
+# # 6. Select and Train Model
 # =============================================================================
-print("\n\n7. select and train model\n")
+print("\n\n6. select and train model\n")
 
-# 7.1 LinearRegression model
+# 6.1 LinearRegression model
 # Requirement:  from sklearn.linear_model import LinearRegression
 #               from sklearn.metrics import mean_squared_error
-print("7.1 LinearRegression model\n")
+print("6.1 LinearRegression model\n")
 
 lin_reg = LinearRegression()
 lin_reg.fit(myDataset_prepared, myDataset_labels)
@@ -370,9 +377,9 @@ print("std deviation of labels:\n", myDataset_labels.std())
 myDataset_labels.hist()
 
 #%% 
-# 7.2 DecisionTreeRegressor model
+# 6.2 DecisionTreeRegressor Model
 # Requirement:  from sklearn.tree import DecisionTreeRegressor
-print("7.2 DecisionTreeRegressor model\n")
+print("6.2 DecisionTreeRegressor Model\n")
 
 tree_reg = DecisionTreeRegressor(random_state=42)
 tree_reg.fit(myDataset_prepared, myDataset_labels)
@@ -385,16 +392,18 @@ print("tree_rmse\n", tree_rmse)
 #%% #######################################################################
 #
 # =============================================================================
-# # 8. crossvalidation 
+# # 7. Crossvalidation 
 # =============================================================================
 print("\n\n8. crossvalidation \n")
 
-# 8.1 for DecisionTreeRegressor
+# 7.1 for DecisionTreeRegressor
 # Requirement:  from sklearn.model_selection import cross_val_score
-print("8.1 for DecisionTreeRegressor\n")
+print("7.1 for DecisionTreeRegressor\n")
 
-scores = cross_val_score(tree_reg, myDataset_prepared, myDataset_labels,
-                         scoring="neg_mean_squared_error", cv=10)
+scores = cross_val_score(tree_reg, myDataset_prepared, 
+                         myDataset_labels,
+                         scoring="neg_mean_squared_error", 
+                         cv=10)
 tree_rmse_scores = np.sqrt(-scores)
 def display_scores(scores):
     print("Scores:", scores)
@@ -404,19 +413,21 @@ def display_scores(scores):
 display_scores(tree_rmse_scores)
 
 #%%
-# 8.2 for LinearRegression
-print("8.2 for LinearRegression\n")
+# 7.2 for LinearRegression
+print("7.2 for LinearRegression\n")
 
-lin_scores = cross_val_score(lin_reg, myDataset_prepared, myDataset_labels,
-                             scoring="neg_mean_squared_error", cv=10)
+lin_scores = cross_val_score(lin_reg, myDataset_prepared, 
+                             myDataset_labels,
+                             scoring="neg_mean_squared_error", 
+                             cv=10)
 lin_rmse_scores = np.sqrt(-lin_scores)
 display_scores(lin_rmse_scores)
 
 #%%
-# 8.3 for RandomForestRegressor
+# 7.3 for RandomForestRegressor
 # Requirements: from sklearn.ensemble import RandomForestRegressor
 #               from sklearn.model_selection import cross_val_score
-print("8.3 for RandomForestRegressor\n")
+print("7.3 for RandomForestRegressor\n")
 
 forest_reg = RandomForestRegressor(n_estimators=10, random_state=42)
 forest_reg.fit(myDataset_prepared, myDataset_labels)
@@ -426,17 +437,20 @@ forest_mse = mean_squared_error(myDataset_labels, myDataset_predictions)
 forest_rmse = np.sqrt(forest_mse)
 print("forest_rmse\n", forest_rmse)
 
-forest_scores = cross_val_score(forest_reg, myDataset_prepared, myDataset_labels,
-                                scoring="neg_mean_squared_error", cv=10)
+forest_scores = cross_val_score(forest_reg, myDataset_prepared, 
+                                myDataset_labels,
+                                scoring="neg_mean_squared_error", 
+                                cv=10)
 forest_rmse_scores = np.sqrt(-forest_scores)
 display_scores(forest_rmse_scores)
 
 #%%
-# 8.4 for ExtraTreesRegressor
-print("8.4 for ExtraTreesRegressor\n")
+# 7.4 for ExtraTreesRegressor
+print("7.4 for ExtraTreesRegressor\n")
 
 from sklearn.ensemble import ExtraTreesRegressor
-extratree_reg = ExtraTreesRegressor(n_estimators=10, random_state=42)
+extratree_reg = ExtraTreesRegressor(n_estimators=10, 
+                                    random_state=42)
 extratree_reg.fit(myDataset_prepared, myDataset_labels)
 
 myDataset_predictions = extratree_reg.predict(myDataset_prepared)
@@ -444,19 +458,21 @@ extratree_mse = mean_squared_error(myDataset_labels, myDataset_predictions)
 extratree_rmse = np.sqrt(extratree_mse)
 print("extratree_rmse\n", extratree_rmse)
 
-extratree_scores = cross_val_score(extratree_reg, myDataset_prepared, 
+extratree_scores = cross_val_score(extratree_reg, 
+                                   myDataset_prepared, 
                                    myDataset_labels, 
-                                   scoring = "neg_mean_squared_error", cv=10)
+                                   scoring = "neg_mean_squared_error", 
+                                   cv=10)
 extratree_rmse_scores = np.sqrt(-extratree_scores)
 display_scores(extratree_rmse_scores)
 
 #%% #######################################################################
 #
 # =============================================================================
-# # 9. Save Model
+# # 8. Save Model
 # =============================================================================
 # Requirement: from sklearn.externals import joblib
-print("\n\n9. Save Model\n")
+print("\n\n8. Save Model\n")
 
 joblib.dump(forest_reg, "forest_reg.pkl")
 # und später...
@@ -465,21 +481,20 @@ my_model_loaded = joblib.load("forest_reg.pkl")
 #%% #######################################################################
 #
 # =============================================================================
-# # 10. Optimize Model
+# # 9. Optimize Model
 # =============================================================================
-print("\n\n10. Optimize Model\n")
+print("\n\n9. Optimize Model\n")
 
-# 10.1 GridSearchCV
-print("\n10.1 GridSearchCV on RandomForestRegressor\n")
+# 9.1 GridSearchCV
+print("\n9.1 GridSearchCV on RandomForestRegressor\n")
 
-#%%
-# 10.1.1 GridSearchCV on RandomForestRegressor
+# 9.1.1 GridSearchCV on RandomForestRegressor
 # Requirement:  from sklearn.model_selection import GridSearchCV
-print("\n10.1.1 GridSearchCV on RandomForestRegressor\n")
+print("\n9.1.1 GridSearchCV on RandomForestRegressor\n")
 
 param_grid = [
     {'n_estimators': [30, 40, 50], 'max_features': [2, 4, 6, 8, 10]},
-    {'bootstrap': [False], 'n_estimators': [3, 10], 'max_features': [2, 3, 4]},
+    {'bootstrap': [False], 'n_estimators': [3, 10], 'max_features': [2, 3, 4]}
   ]
 
 forest_reg = RandomForestRegressor(random_state=42)
@@ -500,9 +515,9 @@ a = pd.DataFrame(grid_search.cv_results_)
 print(a)
 
 #%%
-# 10.1.2 GridSearchCV on LinearRegressor
+# 9.1.2 GridSearchCV on LinearRegressor
 # Requirement:  from sklearn.model_selection import GridSearchCV
-print("\n10.1.1 GridSearchCV on LinearRegressor\n")
+print("\n9.1.1 GridSearchCV on LinearRegressor\n")
 
 param_grid = [
     {'fit_intercept': [True], 'n_jobs': [2, 4, 6, 8, 10]},
@@ -528,10 +543,10 @@ a = pd.DataFrame(lin_grid_search.cv_results_)
 print(a)
 
 #%%
-# 10.2 Randomized Search
+# 9.2 Randomized Search
 # Requirements: from sklearn.model_selection import RandomizedSearchCV
 #               from scipy.stats import randint
-print("\n10.2 Randomized Search\n")
+print("\n9.2 Randomized Search\n")
 
 param_distribs = {
         'n_estimators': randint(low=1, high=200),
@@ -558,8 +573,8 @@ a = pd.DataFrame(rnd_search.cv_results_)
 print(a)
 
 #%%
-# 10.3 Analyze best models
-print("\n10.3 Analyze best models\n")
+# 9.3 Analyze best models
+print("\n9.3 Analyze best models\n")
 
 feature_importances = grid_search.best_estimator_.feature_importances_
 print("feature_importances:\n", feature_importances)
@@ -575,9 +590,9 @@ print("\n".join('{}' for _ in range(len(my_list))).format(*my_list))
 #%% #######################################################################
 #
 # =============================================================================
-# # 11. Evaluate final model on test dataset
+# # 10. Evaluate final model on test dataset
 # =============================================================================
-print("\n\n 11. Evaluate final model on test dataset\n")
+print("\n\n 10. Evaluate final model on test dataset\n")
 
 final_model = grid_search.best_estimator_
 print("final_model:\n", final_model)

@@ -136,145 +136,770 @@ I choose in this *second example* the [Spyder-IDE](https://www.spyder-ide.org/) 
 
 So let's start with the "scikit-learn" ("SmallData", if you want). I will align this structure to the Spark "Big Data" mind map below in order to learn from each of this two approaches. 
 
-![](./media/MindMap_SkLearn.jpeg)
-
-```python
-#%% #######################################################################
-# 1. create index   
-	# 1.1 Alternative 1: generate id with static data
-	# 1.2 Alternative 2: generate stratified sampling
-	# 1.3 verify if stratified example is good
-# 2. Discover and visualize the data to gain insights
-# 3. prepare for Machine Learning
-	# 3.1 find all NULL-values
-	# 3.2 remove all NULL-values
-# 4. Use "Imputer" to clean NaNs
-# 5. treat "categorial" inputs
-# 6. custom transformer and pipelines
-	# 6.1 custom transformer
-	# 6.2 pipelines
-# 7. select and train model
-	# 7.1 LinearRegression model
-	# 7.2 DecisionTreeRegressor model
-# 8. crossvalidation 
-	# 8.1 for DecisionTreeRegressor
-	# 8.2 for LinearRegression
-	# 8.3 for RandomForestRegressor
-	# 8.4 for ExtraTreesRegressor
-# 9. Save Model
-# 10. Optimize Model
-	# 10.1 GridSearchCV
-		# 10.1.1 GridSearchCV on RandomForestRegressor
-		# 10.1.2 GridSearchCV on LinearRegressor
-	# 10.2 Randomized Search
-	# 10.3 Analyze best models
-# 11. Evaluate final model on test dataset
-#%% #######################################################################
-```
+![Machine Learning Mind Map - "Small Data" with Scikit-Learn](.\media\MachineLearningMindMapSmallData.png){#fig:MindMapSmallData}
 
 I aligned this "Small Data" structure to the Apache Spark "Big Data" structure in order to learn from each of this two approaches. Finally I will put these two Mind Maps into one big which you can take as a guide to navigate through all of your machine-learning problems.  
 
-#### 1. create index   
+### Initialize and Read the CSV File
 
-##### 1.1 Alternative 1: generate id with static data
+#### Define Auxiliary Variables and Functions
 
-![](./media/1_1_generate_id_with_static_data.jpg)
+These auxiliary variables and auxiliary functions are intended to make your work easier: 
 
-##### 1.2 Alternative 2: generate stratified sampling
+```python
+PROJECT_ROOT_DIR = "."
+myDataset_NAME = "AirBnB"
+IMAGES_PATH = os.path.join(PROJECT_ROOT_DIR, "media")
+myDataset_PATH = os.path.join("datasets", "AirBnB")
 
-![](./media/1_2_generate_stratified_sampling.jpg)
+def save_fig(fig_id, prefix=myDataset_NAME, 
+             tight_layout=True, fig_extension="png", resolution=300):
+    path = os.path.join(IMAGES_PATH, prefix + "_" + fig_id + "." + fig_extension)
+    print("Saving figure", prefix + "_" + fig_id)
+    if tight_layout:
+        plt.tight_layout()
+    plt.savefig(path, format=fig_extension, dpi=resolution)
+```
 
-##### 1.3 verify if stratified example is good
+#### Read the csv-file
 
-![](./media/1_3_verify_if_stratified_example_is_good.jpg)
+Define a function for reading the CSV file: 
 
-#### 2. Discover and visualize the data to gain insights
+```python
+def load_myDataset_data(myDataset_path=myDataset_PATH):
+    csv_path = os.path.join(myDataset_path, "listings.csv")
+    return pd.read_csv(csv_path)
 
-![](./media/2_discover_and_visualize.jpg)
+myDataset = load_myDataset_data()
+print(myDataset.head())
+```
 
-#### 3. prepare for Machine Learning  
+The dataset has the following format (use `myDataset.info()`): 
 
-##### 3.1 find all NULL-values
+```python
+RangeIndex: 25164 entries, 0 to 25163
+Data columns (total 15 columns):
+ #   Column                          Non-Null Count  Dtype  
+---  ------                          --------------  -----
+ 0   name                            25114 non-null  object 
+ 1   host_id                         25164 non-null  int64  
+ 2   host_name                       25142 non-null  object 
+ 3   neighbourhood_group             25164 non-null  object 
+ 4   neighbourhood                   25164 non-null  object 
+ 5   latitude                        25164 non-null  float64
+ 6   longitude                       25164 non-null  float64
+ 7   room_type                       25164 non-null  object 
+ 8   price                           25164 non-null  int64  
+ 9   minimum_nights                  25164 non-null  int64  
+ 10  number_of_reviews               25164 non-null  int64  
+ 11  last_review                     20636 non-null  object 
+ 12  reviews_per_month               20636 non-null  float64
+ 13  calculated_host_listings_count  25164 non-null  int64  
+ 14  availability_365                25164 non-null  int64  
+dtypes: float64(3), int64(6), object(6)
+```
 
-![](./media/3_1_find_all_NULL_values.jpg)
+### Split Training Data and Test Data
 
-##### 3.2 remove all NULL-values
+The aim if to predict the `price` and use the other columns (or some of them) as features. 
 
-![](./media/3_2_remove_all_NULL_values.jpg)
+#### Generate Stratified Sampling
 
-#### 4. Use "Imputer" to clean NaNs
+I want to create the training dataset and the test dataset by applying stratified sampling: 
 
-![](./media/4_use_imputer_to_clean_NaNs.jpg)
+```python
+myDataset["price"].hist()
+myDataset["price_cat"] = pd.cut(myDataset["price"],
+                               bins=[-1, 50, 100, 200, 400, np.inf],
+                               labels=[50, 100, 200, 400, 500])
+print("\nvalue_counts\n", myDataset["price_cat"].value_counts())
+myDataset["price_cat"].hist()
 
-#### 5. treat "categorial" inputs
+split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+for train_index, test_index in split.split(myDataset, myDataset["price_cat"]):
+    strat_train_set = myDataset.loc[train_index]
+    strat_test_set = myDataset.loc[test_index]
+```
 
-![](./media/5_treat_categorial_inputs.jpg)
+![Small Data - AirBnB Histogram](K:/Meine Daten/GitHub/From-Zero-to-Senior-Data-Science/src/media/AirBnB_1_2_hist.png)
 
-#### 6. custom transformer and pipelines  
+There is a very long tail in the price (going to about 9000). 
 
-##### 6.1 custom transformer
+![Small Data - AirBnB Histogram Stratified Sample](K:/Meine Daten/GitHub/From-Zero-to-Senior-Data-Science/src/media/AirBnB_1_2_hist_stratsample.png)
 
-![](./media/6_1_custom_transformer.jpg)
+#### Verify if Stratified sample is good
 
-#####  6.2 pipelines
+Next step is to verify if the stratified sample is good and compare it to a random sampling
 
-![](./media/6_2_pipelines.jpg)
+```python
+def price_cat_proportions(data):
+    return data["price_cat"].value_counts() / len(data)
 
-#### 7. select and train model  
+train_set, test_set = train_test_split(myDataset, test_size=0.2, random_state=42)
 
-##### 7.1 LinearRegression model
+compare_props = pd.DataFrame({
+    "Overall": price_cat_proportions(myDataset),
+    "Stratified": price_cat_proportions(strat_test_set),
+    "Random": price_cat_proportions(test_set),
+}).sort_index()
 
-![](./media/7_1_linear_regression_model.jpg)
+compare_props["Rand. %error"] = 100 * compare_props["Random"] / 
+								compare_props["Overall"] - 100
+compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / 
+								compare_props["Overall"] - 100
+```
 
-#####  7.2 DecisionTreeRegressor model
+From the `%error` columns I can see, that the stratified sample is always better, than the random sampling.
 
-![](./media/7_2_decisiontreeregressor_model.jpg)
+```python
+      Overall  Stratified    Random  Rand. %error  Strat. %error
+50   0.533659    0.533678  0.536062      0.450249       0.003473
+100  0.340168    0.340155  0.343731      1.047386      -0.003974
+200  0.101256    0.101331  0.097755     -3.457526       0.074516
+400  0.017326    0.017286  0.015498    -10.554013      -0.233322
+500  0.007590    0.007550  0.006954     -8.380604      -0.527513
+```
 
-#### 8. crossvalidation  
+### Discover and Visualize the Data to Gain Insights
 
-##### 8.1 for DecisionTreeRegressor
+Now it it time to create some visualizations as I described in [@sec:Visualization]. The first plot it a bad example, because the big blue dots don't reveal any interesting information about the `price` (which was our prediction variable). 
 
-![](./media/8_1_crossvalidation_for_decisontreeregressor.jpg)
+```python
+myDataset.plot(kind="scatter", 
+               x="longitude", y="latitude", 
+               title="bad_visualization_plot")
+save_fig("bad_visualization_plot")
+```
 
-#####  8.2 for LinearRegression
+![](K:/Meine Daten/GitHub/From-Zero-to-Senior-Data-Science/src/media/AirBnB_bad_visualization_plot.png)
 
-![](./media/8_2_crossvalidation_for_linearregression.jpg)
+Better would be to include the price by a heat color: 
 
-##### 8.3 for RandomForestRegressor
+```python
+myDataset.plot(kind="scatter", 
+               x="longitude", y="latitude", 
+               alpha=0.4, s=myDataset["price"]/100, 
+               label="price", figsize=(10,7), 
+               c="price", cmap=plt.get_cmap("jet"), 
+               colorbar=True, sharex=False, 
+               title="prices_scatterplot")
+plt.legend()
+save_fig("prices_scatterplot")
+```
 
-![](./media/8_3_crossvalidation_for_randomforestregressor.jpg)
+![](K:/Meine Daten/GitHub/From-Zero-to-Senior-Data-Science/src/media/AirBnB_prices_scatterplot.png)
 
-##### 8.4 for ExtraTreesRegressor
+```python
+attributes = ["number_of_reviews", "host_id", 
+              "availability_365", "reviews_per_month"]
+scatter_matrix(myDataset[attributes], 
+               figsize=(12, 8))
+plt.suptitle("scatter_matrix_plot")
+save_fig("scatter_matrix_plot")
+```
 
-![](./media/8_4_crossvalidation_for_extratreesregressor.jpg)
+![](K:/Meine Daten/GitHub/From-Zero-to-Senior-Data-Science/src/media/AirBnB_scatter_matrix_plot.png)
 
-#### 9. Save Model
+As I am interested in predicting the `price` I will calculate the correlation matrix in order to see, which column is most important: 
 
-![](./media/9_save_model.jpg)
+```python
+corr_matrix = myDataset.corr()
+print("correlation:\n", corr_matrix["price"].sort_values(ascending=False))
+```
 
-#### 10. Optimize Model  
+```python
+correlation:
+price                             1.000000
+availability_365                  0.096979
+calculated_host_listings_count    0.077545
+host_id                           0.045434
+reviews_per_month                 0.034332
+latitude                          0.007836
+number_of_reviews                 0.000611
+minimum_nights                   -0.006361
+longitude                        -0.036490
+Name: price, dtype: float64
+```
 
-#####  10.1 GridSearchCV
+### Clean NULL-Values and Prepare for Machine Learning
 
-###### 	 10.1.1 GridSearchCV on RandomForestRegressor	 
+#### Find all NULL-Values
 
-![](./media/10_1_1_gridsearchcv_randomforestregressor.jpg)
+```python
+print("\nHow many Non-NULL rows are there?\n")
+print(myDataset.info())
+print("\nAre there NULL values in the columns?\n", 
+      myDataset.isnull().any())
+print("\nAre there NULLs in column reviews_per_month?\n",
+      myDataset["reviews_per_month"].isnull().any())
+print("\nShow some rows with NULL (head only):\n",
+      myDataset[myDataset["reviews_per_month"].isnull()].head())
+```
 
-###### 	 10.1.2 GridSearchCV on LinearRegressor
+How many Non-Null rows are there?
 
-![](./media/10_1_2_gridsearchcv_linearregressor.jpg)
+```python
+Data columns (total 14 columns):
+ #   Column                          Non-Null Count  Dtype  
+---  ------                          --------------  -----
+ 0   name                            20088 non-null  object 
+ 1   host_id                         20131 non-null  int64  
+ 2   host_name                       20114 non-null  object 
+ 3   neighbourhood_group             20131 non-null  object 
+ 4   neighbourhood                   20131 non-null  object 
+ 5   latitude                        20131 non-null  float64
+ 6   longitude                       20131 non-null  float64
+ 7   room_type                       20131 non-null  object 
+ 8   minimum_nights                  20131 non-null  int64  
+ 9   number_of_reviews               20131 non-null  int64  
+ 10  last_review                     16501 non-null  object 
+ 11  reviews_per_month               16501 non-null  float64
+ 12  calculated_host_listings_count  20131 non-null  int64  
+ 13  availability_365                20131 non-null  int64  
+dtypes: float64(3), int64(5), object(6)
+```
 
-#####  10.2 Randomized Search
+Are there NaN values in the columns?
 
-![](./media/10_2_randomized_search.jpg)
+```python
+name                               True
+host_id                           False
+host_name                          True
+neighbourhood_group               False
+neighbourhood                     False
+latitude                          False
+longitude                         False
+room_type                         False
+minimum_nights                    False
+number_of_reviews                 False
+last_review                        True
+reviews_per_month                  True
+calculated_host_listings_count    False
+availability_365                  False
+```
 
-#####  10.3 Analyze best models
+#### Remove all NULL-Values
 
-![](./media/10_3_analyze_best_models.jpg)
+There are different options for handling NULL values, which occur in a column: 
 
-#### 11. Evaluate final model on test dataset
+Option 1: we can delete the entire row 
 
-![](./media/11_evaluate_final_model.jpg)
+Option 2: we can delete the entire column 
+
+Option 3: we can fill these with an assumption, like for example the median (which is a often a good assumption for filling NULL values, but not always, as we have seen in the movies database example). 
+
+```python
+sample_incomplete_rows = myDataset[myDataset.isnull().any(axis=1)] 
+
+# option 1: remove rows which contains NaNs
+# sample_incomplete_rows.dropna(subset=["total_bedrooms"])    
+
+# option 2 : remove columns with contain NaNs
+# sample_incomplete_rows.drop("total_bedrooms", axis=1)       
+
+# option 3 : replace NaN by median
+median = myDataset["reviews_per_month"].median()
+sample_incomplete_rows["reviews_per_month"].fillna(median, inplace=True) 
+
+print("sample_incomplete_rows\n", sample_incomplete_rows['reviews_per_month'].head())
+```
+
+```python
+sample_incomplete_rows
+24411    0.43
+15700    0.43
+9311     0.43
+21882    0.43
+24259    0.43
+```
+
+### Model-Specific Preprocessing
+
+#### Use "Imputer" to Clean NULL-Values
+
+ Remove all text attributes because median can only be calculated on numerical attributes
+
+```python
+imputer = SimpleImputer(strategy="median")
+myDataset_num = myDataset.select_dtypes(include=[np.number]) #or: myDataset_num = myDataset.drop('ocean_proximity', axis=1) 
+imputer.fit(myDataset_num)
+print("\nimputer.strategy\n", 
+      imputer.strategy)
+print("\nimputer.statistics_\n", 
+      imputer.statistics_)
+print("\nmyDataset_num.median\n", 
+      myDataset_num.median().values) 
+print("\nmyDataset_num.mean\n", 
+      myDataset_num.mean().values)  
+```
+
+```python
+imputer.strategy
+ median
+
+imputer.statistics_
+ [3.9804571e+07 5.2509580e+01 1.3416280e+01 3.0000000e+00 5.0000000e+00
+ 4.3000000e-01 1.0000000e+00 0.0000000e+00]
+
+myDataset_num.median
+ [3.9804571e+07 5.2509580e+01 1.3416280e+01 3.0000000e+00 5.0000000e+00
+ 4.3000000e-01 1.0000000e+00 0.0000000e+00]
+
+myDataset_num.mean
+ [7.74925763e+07 5.25100259e+01 1.34059193e+01 7.20863345e+00
+ 2.17043863e+01 1.02009696e+00 2.43967016e+00 7.33118573e+01]
+```
+
+Transform the training set:
+
+```python
+X = imputer.transform(myDataset_num) 
+myDataset_tr = pd.DataFrame(X, columns=myDataset_num.columns,
+                          index=myDataset.index)
+myDataset_tr.loc[sample_incomplete_rows.index.values]
+```
+
+#### Treat "Categorial" Inputs
+
+Use the OneHotEncoder for the categorial values: 
+
+```python
+myDataset_cat = myDataset[['room_type']]
+print("myDataset_cat.head\n", myDataset_cat.head(10), "\n")
+
+cat_encoder = OneHotEncoder()
+myDataset_cat_1hot = cat_encoder.fit_transform(myDataset_cat)
+print("cat_encoder.categories_:\n", cat_encoder.categories_)
+print("myDataset_cat_1hot.toarray():\n", myDataset_cat_1hot.toarray())
+print("myDataset_cat_1hot:\n", myDataset_cat_1hot)
+```
+
+```python
+myDataset_cat.head
+              room_type
+5177      Private room
+19616  Entire home/apt
+10275     Private room
+2078   Entire home/apt
+23131  Entire home/apt
+8408   Entire home/apt
+17918  Entire home/apt
+24411  Entire home/apt
+8872      Private room
+16064       Hotel room 
+
+cat_encoder.categories_:
+ [array(['Entire home/apt', 'Hotel room', 'Private room', 'Shared room'],
+      dtype=object)]
+
+myDataset_cat_1hot.toarray():
+ [[0. 0. 1. 0.]
+ [1. 0. 0. 0.]
+ [0. 0. 1. 0.]
+ ...
+ [0. 0. 1. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 1. 0.]]
+```
+
+### Pipelines and Custom Transformer
+
+#### Custom Transformer
+
+```python
+print("myDataset.columns\n", myDataset_num.columns)
+number_of_reviews_ix, availability_365_ix, 
+calculated_host_listings_count_ix, 
+reviews_per_month_ix = [
+    list(myDataset_num.columns).index(col)
+    for col in ("number_of_reviews", "availability_365",
+                "calculated_host_listings_count", 
+                "reviews_per_month")]
+
+def add_extra_features(X):
+    number_reviews_dot_revievs_per_month = 
+    X[:, number_of_reviews_ix] * X[:, reviews_per_month_ix]
+    return np.c_[X, number_reviews_dot_revievs_per_month]
+
+attr_adder = FunctionTransformer(add_extra_features, validate=False)
+myDataset_extra_attribs = attr_adder.fit_transform(myDataset_num.values)
+
+myDataset_extra_attribs = pd.DataFrame(
+    myDataset_extra_attribs,
+    columns=list(myDataset_num.columns)+["number_reviews_dot_revievs_per_month"],
+    index=myDataset_num.index)
+print("myDataset_extra_attribs.head()\n", myDataset_extra_attribs.head())
+```
+
+#### Pipelines 
+
+```python
+num_pipeline = Pipeline([
+        ('imputer', SimpleImputer(strategy="median")),
+        ('attribs_adder', FunctionTransformer(add_extra_features, 
+                                              validate=False)),
+        ('std_scaler', StandardScaler())])
+myDataset_num_tr = num_pipeline.fit_transform(myDataset_num)
+print("myDataset_num_tr\n", myDataset_num_tr)
+
+num_attribs = list(myDataset_num)
+cat_attribs = ["room_type"]
+
+full_pipeline = ColumnTransformer([
+        ("num", num_pipeline, num_attribs),
+        ("cat", OneHotEncoder(), cat_attribs),
+    ])
+myDataset_prepared = full_pipeline.fit_transform(myDataset)
+print("myDataset_prepared\n", myDataset_prepared)
+```
+
+### Select and Train Model
+
+#### LinearRegression Model
+
+```python
+lin_reg = LinearRegression()
+lin_reg.fit(myDataset_prepared, myDataset_labels)
+some_data = myDataset.iloc[:10]
+some_labels = myDataset_labels.iloc[:10]
+some_data_prepared = full_pipeline.transform(some_data)
+print("Predictions:\n", lin_reg.predict(some_data_prepared))
+print("Labels:\n", list(some_labels)) 
+
+myDataset_predictions = lin_reg.predict(myDataset_prepared)
+lin_mse = mean_squared_error(myDataset_labels, myDataset_predictions)
+lin_rmse = np.sqrt(lin_mse)
+print("lin_rmse\n", lin_rmse)
+
+print("mean of labels:\n", myDataset_labels.mean())
+print("std deviation of labels:\n", myDataset_labels.std())
+```
+
+```python
+Predictions:
+ [ 40.29259797  89.54082186  45.36959079 101.64252692  82.68120391
+  89.57892837  76.33903757  76.42930129  38.55979179 861.9719368 ]
+Labels:
+ [41, 190, 35, 50, 100, 60, 69, 80, 32, 140]
+lin_rmse
+ 213.51224401460684
+mean of labels:
+ 74.19313496597287
+std deviation of labels:
+ 227.66240520718222
+```
+
+####  DecisionTreeRegressor Model
+
+```python
+tree_reg = DecisionTreeRegressor(random_state=42)
+tree_reg.fit(myDataset_prepared, myDataset_labels)
+myDataset_predictions = tree_reg.predict(myDataset_prepared)
+
+tree_mse = mean_squared_error(myDataset_labels, myDataset_predictions)
+tree_rmse = np.sqrt(tree_mse)
+print("tree_rmse\n", tree_rmse)
+```
+
+```python
+tree_rmse
+ 2.5907022436676304
+```
+
+### Crossvalidation
+
+#### For DecisionTreeRegressor
+
+```python
+scores = cross_val_score(tree_reg, myDataset_prepared, 
+                         myDataset_labels,
+                         scoring="neg_mean_squared_error", 
+                         cv=10)
+tree_rmse_scores = np.sqrt(-scores)
+def display_scores(scores):
+    print("Scores:", scores)
+    print("Mean:", scores.mean())
+    print("Standard deviation:", scores.std())
+
+display_scores(tree_rmse_scores)
+```
+
+```python
+Scores: [137.8762754  312.21141325 218.18522714 237.35937087  72.91732588
+  65.62821113 304.05961303  86.65346214 178.337086   207.20918128]
+Mean: 182.0437166129294
+Standard deviation: 85.6479894222897
+```
+
+####  For LinearRegression 
+
+```python
+lin_scores = cross_val_score(lin_reg, myDataset_prepared, 
+                             myDataset_labels,
+                             scoring="neg_mean_squared_error", 
+                             cv=10)
+lin_rmse_scores = np.sqrt(-lin_scores)
+display_scores(lin_rmse_scores)
+```
+
+```python
+Scores: [216.69779596 285.34262945 264.35619589 299.03183929 241.53524149
+  78.73412537 208.49809202 186.28646055 147.62364622  91.09183577]
+Mean: 201.91978620154234
+Standard deviation: 72.64261021086485
+```
+
+#### For RandomForestRegressor
+
+```python
+forest_reg = RandomForestRegressor(n_estimators=10, random_state=42)
+forest_reg.fit(myDataset_prepared, myDataset_labels)
+
+myDataset_predictions = forest_reg.predict(myDataset_prepared)
+forest_mse = mean_squared_error(myDataset_labels, myDataset_predictions)
+forest_rmse = np.sqrt(forest_mse)
+print("forest_rmse\n", forest_rmse)
+
+forest_scores = cross_val_score(forest_reg, myDataset_prepared, 
+                                myDataset_labels,
+                                scoring="neg_mean_squared_error", 
+                                cv=10)
+forest_rmse_scores = np.sqrt(-forest_scores)
+display_scores(forest_rmse_scores)
+```
+
+```python
+forest_rmse
+ 59.973965336421536
+Scores: [157.89997398 130.24045184 208.33415063 235.2803762   93.2680475
+  51.26602041 138.75095351 194.70999772 114.94817824 152.59500511]
+Mean: 147.72931551364474
+Standard deviation: 52.34950554724271
+```
+
+### Save Model
+
+```python
+joblib.dump(forest_reg, "forest_reg.pkl")
+# and later...
+my_model_loaded = joblib.load("forest_reg.pkl")
+```
+
+### Optimize Model
+
+#### GridSearchCV
+
+##### 	 GridSearchCV on RandomForestRegressor
+
+```python
+param_grid = [
+    {'n_estimators': [30, 40, 50], 'max_features': [2, 4, 6, 8, 10]},
+    {'bootstrap': [False], 'n_estimators': [3, 10], 'max_features': [2, 3, 4]} ]
+
+forest_reg = RandomForestRegressor(random_state=42)
+grid_search = GridSearchCV(forest_reg, param_grid, cv=5,
+                           scoring='neg_mean_squared_error', 
+                           return_train_score=True)
+grid_search.fit(myDataset_prepared, myDataset_labels)
+
+print("Best Params: ", grid_search.best_params_)
+print("Best Estimator: ", grid_search.best_estimator_)
+print("\nResults (mean_test_score and params):")
+cvres = grid_search.cv_results_
+for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+    print(np.sqrt(-mean_score), params)
+```
+
+```python
+Best Params:  {'max_features': 6, 'n_estimators': 50}
+Best Estimator:  RandomForestRegressor(max_features=6, n_estimators=50, random_state=42)
+
+Results (mean_test_score and params):
+141.45328245705397 {'max_features': 2, 'n_estimators': 30}
+142.78195035217828 {'max_features': 2, 'n_estimators': 40}
+142.37123716346338 {'max_features': 2, 'n_estimators': 50}
+135.775474892488 {'max_features': 4, 'n_estimators': 30}
+134.4190304245193 {'max_features': 4, 'n_estimators': 40}
+135.55354286489987 {'max_features': 4, 'n_estimators': 50}
+134.16110647203996 {'max_features': 6, 'n_estimators': 30}
+134.1926275989663 {'max_features': 6, 'n_estimators': 40}
+132.63913672411098 {'max_features': 6, 'n_estimators': 50}
+136.15995027100854 {'max_features': 8, 'n_estimators': 30}
+134.6124097344303 {'max_features': 8, 'n_estimators': 40}
+133.2709123855618 {'max_features': 8, 'n_estimators': 50}
+137.99385113493992 {'max_features': 10, 'n_estimators': 30}
+137.62914189800856 {'max_features': 10, 'n_estimators': 40}
+137.05278896563013 {'max_features': 10, 'n_estimators': 50}
+163.96946102421438 {'bootstrap': False, 'max_features': 2, 'n_estimators': 3}
+144.03648391473084 {'bootstrap': False, 'max_features': 2, 'n_estimators': 10}
+149.43499632921868 {'bootstrap': False, 'max_features': 3, 'n_estimators': 3}
+139.80926358472138 {'bootstrap': False, 'max_features': 3, 'n_estimators': 10}
+143.39742710695754 {'bootstrap': False, 'max_features': 4, 'n_estimators': 3}
+137.45096056556272 {'bootstrap': False, 'max_features': 4, 'n_estimators': 10}
+```
+
+##### 	 GridSearchCV on LinearRegressor
+
+```python
+param_grid = [
+    {'fit_intercept': [True], 'n_jobs': [2, 4, 6, 8, 10]},
+    {'normalize': [False], 'n_jobs': [3, 10]},
+  ]
+
+lin_reg = LinearRegression()
+# train across 5 folds, that's a total of (12+6)*5=90 rounds of training 
+lin_grid_search = GridSearchCV(lin_reg, param_grid, cv=5,
+                           scoring='neg_mean_squared_error', 
+                           return_train_score=True)
+lin_grid_search.fit(myDataset_prepared, myDataset_labels)
+
+print("Best Params: ", lin_grid_search.best_params_)
+print("Best Estimator: ", lin_grid_search.best_estimator_)
+print("\nResults (mean_test_score and params):")
+cvres = lin_grid_search.cv_results_
+for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+    print(np.sqrt(-mean_score), params)
+```
+
+```python
+Best Params:  {'fit_intercept': True, 'n_jobs': 2}
+Best Estimator:  LinearRegression(n_jobs=2)
+
+Results (mean_test_score and params):
+214.25154731008828 {'fit_intercept': True, 'n_jobs': 2}
+214.25154731008828 {'fit_intercept': True, 'n_jobs': 4}
+214.25154731008828 {'fit_intercept': True, 'n_jobs': 6}
+214.25154731008828 {'fit_intercept': True, 'n_jobs': 8}
+214.25154731008828 {'fit_intercept': True, 'n_jobs': 10}
+214.25154731008828 {'n_jobs': 3, 'normalize': False}
+214.25154731008828 {'n_jobs': 10, 'normalize': False}
+```
+
+####  Randomized Search
+
+```python
+param_distribs = {
+        'n_estimators': randint(low=1, high=200),
+        'max_features': randint(low=1, high=8),
+    }
+
+forest_reg = RandomForestRegressor(random_state=42)
+rnd_search = RandomizedSearchCV(forest_reg, 
+                                param_distributions=param_distribs,
+                                n_iter=10, cv=5, 
+                                scoring='neg_mean_squared_error', 
+                                random_state=42)
+rnd_search.fit(myDataset_prepared, myDataset_labels)
+
+print("Best Params: ", rnd_search.best_params_)
+print("Best Estimator: ", rnd_search.best_estimator_)
+print("\nResults (mean_test_score and params):")
+cvres = rnd_search.cv_results_
+for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+    print(np.sqrt(-mean_score), params)
+```
+
+```python
+Best Params:  {'max_features': 7, 'n_estimators': 180}
+Best Estimator:  RandomForestRegressor(max_features=7, n_estimators=180, random_state=42)
+
+Results (mean_test_score and params):
+133.8480285550475 {'max_features': 7, 'n_estimators': 180}
+136.57169310969803 {'max_features': 5, 'n_estimators': 15}
+139.51632044685252 {'max_features': 3, 'n_estimators': 72}
+137.1771768583531 {'max_features': 5, 'n_estimators': 21}
+134.3830342778431 {'max_features': 7, 'n_estimators': 122}
+139.33370530867487 {'max_features': 3, 'n_estimators': 75}
+138.9071602851763 {'max_features': 3, 'n_estimators': 88}
+135.5081501949792 {'max_features': 5, 'n_estimators': 100}
+138.3278914625561 {'max_features': 3, 'n_estimators': 150}
+184.05585159780387 {'max_features': 5, 'n_estimators': 2}
+```
+
+
+
+####  Analyze best models
+
+```python
+feature_importances = grid_search.best_estimator_.feature_importances_
+print("feature_importances:\n", feature_importances)
+extra_attribs = ["number_reviews_dot_revievs_per_month"]
+cat_encoder = full_pipeline.named_transformers_["cat"]
+cat_one_hot_attribs = list(cat_encoder.categories_[0])
+attributes = num_attribs + extra_attribs + cat_one_hot_attribs
+print("\nattributes:\n", attributes)
+my_list = sorted(zip(feature_importances, attributes), reverse=True)
+print("\nMost important features (think about removing features):")
+print("\n".join('{}' for _ in range(len(my_list))).format(*my_list))
+```
+
+```python
+feature_importances:
+ [0.16069378 0.07746518 0.16413731 0.04363706 0.02335222 0.05394379
+ 0.10185993 0.17949253 0.04558588 0.00626952 0.13746286 0.00526594
+ 0.00083401]
+
+attributes:
+ ['host_id', 'latitude', 'longitude', 'minimum_nights', 'number_of_reviews', 'reviews_per_month', 'calculated_host_listings_count', 'availability_365', 'number_reviews_dot_revievs_per_month', 'Entire home/apt', 'Hotel room', 'Private room', 'Shared room']
+
+Most important features (think about removing features):
+(0.17949252977627858, 'availability_365')
+(0.1641373056263463, 'longitude')
+(0.16069378145971047, 'host_id')
+(0.13746285698834157, 'Hotel room')
+(0.10185992760999112, 'calculated_host_listings_count')
+(0.07746518330470566, 'latitude')
+(0.05394378731977807, 'reviews_per_month')
+(0.04558587773390613, 'number_reviews_dot_revievs_per_month')
+(0.043637064748633575, 'minimum_nights')
+(0.023352218877592826, 'number_of_reviews')
+(0.0062695183764503, 'Entire home/apt')
+(0.0052659368947157795, 'Private room')
+(0.0008340112835496431, 'Shared room')
+```
+
+### Evaluate final model on test dataset
+
+```python
+final_model = grid_search.best_estimator_
+print("final_model:\n", final_model)
+
+X_test = strat_test_set.drop("price", axis=1)
+y_test = strat_test_set["price"].copy()
+
+X_test_prepared = full_pipeline.transform(X_test)
+final_predictions = final_model.predict(X_test_prepared)
+
+final_mse = mean_squared_error(y_test, final_predictions)
+final_rmse = np.sqrt(final_mse)
+
+print ("final_predictions:\n", final_predictions )
+print ("final_rmse:\n", final_rmse )
+
+confidence = 0.95
+squared_errors = (final_predictions - y_test) ** 2
+mean = squared_errors.mean()
+m = len(squared_errors)
+
+# from scipy import stats
+print("95% confidence interval: ", 
+      np.sqrt(stats.t.interval(confidence, m - 1,
+                         loc=np.mean(squared_errors),
+                         scale=stats.sem(squared_errors)))
+      )
+```
+
+```python
+final_model:
+ RandomForestRegressor(max_features=6, n_estimators=50, random_state=42)
+final_predictions:
+ [132.24  78.2   96.3  ...  75.66  51.2   47.04]
+final_rmse:
+ 112.12588420446276
+95% confidence interval:  [ 53.7497262  149.18242105]
+```
+
+## 
 
 
 ## III. "Big Data" Machine Learning using the "Spark ML Library"
@@ -291,11 +916,15 @@ I added a **"Digression (Excurs)"** at the end of this document which covers the
 
 Let's start with the structure, which I put into a mind map (you can download it from this repository). I aligned the structure to the SkLearn mind map above in order to learn from each of this two approaches. 
 
-![](./media/MindMap_Spark.jpeg)
+![Machine Learning Mind Map - "Big Data" with Apache Spark ML](.\media\MachineLearningMindMapBigData.png){#fig:MachineLearningMindMapBigData}
 
 There are different ways to approach the Apache Spark and Hadoop environment: you can install it on your own computer (which I found rather difficult because of lack of user-friendly and easy understandable documentation). Or you can dive into a Cloud environment, like e.g. Microsoft Azure or Amazon EWS or Google Cloud and try to get a virtual machine up and running for your purposes. Have a look at my [documentation](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure), where I shared my experiences, which I had with Microsoft Azure [here](https://github.com/AndreasTraut/Experiences-with-MicrosoftAzure). 
 
 For the following explanation I decided to use [Docker](https://www.docker.com/). What is Docker? Docker is *"an open-source project that automates the deployment of software applications inside containers by providing an additional layer of abstraction and automation of OS-level virtualization on Linux."* Learn from the [Docker-Curriculum](https://docker-curriculum.com/) how it works. I found an container, which had Apache Spark Version 3.0.0 and Hadoop 3.2 installed and built my machine-learning code (using pyspark) on top of this container. 
+
+### Initialize and Read the CSV File
+
+#### Get Ready with Docker
 
 I shared my code and developments on Docker-Hub in the following repository [here](https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark). After having installed the Docker application you will need to pull my "machine-learning-pyspark" image to your computer: 
 
@@ -320,6 +949,8 @@ The folder "data" contains the datasets. If you would like to do further analysi
 ![](./media/docker_localhost_data.jpg)When you open the Jupyter-Notebook, you will see, that Apache Spark Version 3.0.0 and Hadoop Version 3.2 is installed:
 
 ![](./media/docker_jupyter_apache_spark.jpg)
+
+
 
 #### 0. Initialize Spark
 
@@ -347,21 +978,63 @@ If you want to persist (=save) your intermediate you can do it as follows:
 
 ##### 0.5 Read Parquet
 
-See jupyter notebook. 
+If you want to persist (=save) your intermediate you can do it as follows: 
 
-##### 0.6 How to stop a Spark Session and Spark Context
+```python
+data.select(*data.columns[:-1]).write.format("parquet").save("data/inputdata_preprocessed.parquet", mode='overwrite')
+data.select(*data.columns[:-1]).write.csv('data/inputdata_preprocessed.csv', mode='overwrite', header=True)
+```
 
-See jupyter notebook. 
+Reading works as follows: 
+
+```python
+filename = "data/inputdata_preprocessed.parquet"
+data = spark.read.parquet(filename)
+```
 
 #### 1. Cleaning the data     
 
-##### 1.1 Show number of rows and columns and do some visualizations  
-
 ##### 1.2 Replacing and Casting  
+
+```python
+data = data.withColumn('price', F.regexp_replace('price','\$',''))
+data = data.withColumn('price', F.regexp_replace('price',',',''))
+data = data.withColumn('price', data['price'].cast('double'))
+```
 
 ##### 1.3 Null-Values  
 
+```python
+print("{} missing values for price"
+      .format(data
+              .filter(F.isnull(data['price']))
+              .count()))
+```
+
+```python
+104 missing values for price
+```
+
+```python
+data = data.fillna(0, subset='price')
+```
+
+```python
+print("{} missing values for price".format(data.filter(F.isnull(data['price'])).count()))
+```
+
+```python
+0 missing values for price
+```
+
 ##### 1.4 String Values  
+
+```python
+string_types = [x[0] 
+                for x in data.dtypes 
+                if x[1] == 'string']
+data.select(string_types).describe().show()
+```
 
 #### 2. Model-specific preprocessing    
 
@@ -381,17 +1054,68 @@ I included some examples of how features can be extracted, transformed and selec
 
 ![](./media/docker_jupyter_onehotencoder_vectorassembler2.jpg)
 
-##### 2.4 CountVectorizer  
-
 #### 3. Aligning and numerating Features and Labels    
 
 ##### 3.1 Aligning  
 
+Aligning in this context means, that you use the variable `label` for the labeled column (here it is the "price" column) and the variable `feature_cols` for the features. 
+
+```python
+label = 'price' 
+feature_cols = ['num_features', 
+                'vec_label']
+cols = feature_cols + ['label']
+data_feat = data.withColumnRenamed(label,'label').select(cols)
+```
+
+```python
++------------+---------+-----+
+|num_features|vec_label|label|
++------------+---------+-----+
+|     [145.0]|   [90.0]| 90.0|
+|      [27.0]|   [28.0]| 28.0|
+|     [133.0]|  [125.0]|125.0|
+|     [292.0]|   [33.0]| 33.0|
+|      [8.0]|   [180.0]| 180.0|
++------------+---------+-----+
+only showing top 5 rows
+```
+
 ##### 3.2 Numerating  
+
+```python
+feat_len = len(numeric_attributes) + data.select('room_type','room_index').distinct().count() 
+features = numeric_attributes  + [r[0] for r in data.select('room_type','room_index').distinct().collect()] 
+feature_dict = dict(zip(range(0, feat_len), features))
+```
+
+
 
 #### 4. Pipelines  
 
+```python
+from pyspark.ml import Pipeline
+pipeline = Pipeline(stages=[vec_num, 
+                            vec_label])
+pipeline_model = pipeline.fit(data)
+```
+
+If you want to work with another pipeline, then all you need is to replace the second line. For example into this: 
+
+```python
+pipeline = Pipeline(stages=[room_indexer, 
+                            vec_num, 
+                            vec_label])
+```
+
 #### 5. Training data and Testing data  
+
+```python
+data_train, data_test = data_feat.randomSplit([0.9,0.1], 
+                                              seed=42)
+```
+
+This creates a random split into a training dataset `data_train` and the testing dataset `data_test`. Remember, that in the movies data example (see [@sec:MoviesDatabaseExample]) we used the stratified sample. 
 
 #### 6. Apply models and evaluate    
 
@@ -403,35 +1127,21 @@ After having extracted, transformed and selected features you will want to apply
 
 ##### 6.2 Ridge Regression  
 
+The coding syntax for the "Ridge Regression" and the  "Lasso Regression" are pretty similar (there are also the `fit` and the `transform` methods). Please read the official documentation in order to understanding the "Ridge Regression and the Lasso Regression"[^ridgelassoregression] in detail.
+
 ##### 6.3 Lasso Regression  
 
-##### 6.4 Decision Tree  
+The coding syntax for the "Decision Tree" is pretty similar (there is also the `fit` and the `transform` method). Please read the official documentation in order to understanding the "Decision Tree"[^decisiontree] in detail.
 
 #### 7. Minhash und Local-Sensitive-Hashing (LSH) 
 
 see example: https://github.com/AndreasTraut/Deep_learning_explorations
 
-#### 8. Alternative-Least-Square (ALS)    
-
-##### 8.1. Datapreparation for ALS  
-
-##### 8.2 Build the recommendation model using alternating least squares (ALS)  
-
-##### 8.3 Get recommendations  
-
-##### 8.4 Clustering of Users with K-Means 
-
-see example: https://hub.docker.com/repository/docker/andreastraut/machine-learning-pyspark  
-
-##### 8.5 Perform a PCA and draw the 2-dim projection  
-
-
-
 ## IV. Summary Mind-Map
 
 To summarize the whole coding structure have a look at the following and also the provided mind-maps. My mind map below may help you to structure your code: 
 
-![](./media/MindMap_SkLearn_and_Spark.jpeg)
+![Machine Learning Mind Map - "Small Data" and "Big Data"](.\media\MachineLearningMindMap.png){#fig:MachineLearningMindMapSummary}
 
 ## V. Digression (Excurs) to Big Data Visualization and K-Means Clustering Algorithm and Map-Reduce
 
