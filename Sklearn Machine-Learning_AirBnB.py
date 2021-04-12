@@ -200,16 +200,19 @@ for set_ in (strat_train_set, strat_test_set):
 print("\n\n2. Discover and visualize the data to gain insights \n")
 
 # myDataset = strat_train_set.copy()
-myDataset.plot(kind="scatter", x="longitude", y="latitude", title="bad_visualization_plot")
+myDataset.plot(kind="scatter", x="longitude", y="latitude", 
+               title="bad_visualization_plot")
 save_fig("bad_visualization_plot")
 
-attributes = ["number_of_reviews", "host_id", "availability_365", "reviews_per_month"]
+attributes = ["price", "number_of_reviews", "host_id", "availability_365", 
+              "reviews_per_month", "minimum_nights"]
 scatter_matrix(myDataset[attributes], figsize=(12, 8))
 plt.suptitle("scatter_matrix_plot")
 save_fig("scatter_matrix_plot")
-
+#%%
+# myDataset = myDataset[(myDataset['longitude']>=13.32) & (myDataset['longitude']<=13.35)]
 myDataset.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
-    s=myDataset["price"]/100, label="price", figsize=(10,7),
+    s=myDataset['price']/100, label="price", figsize=(10,7),
     c="price", cmap=plt.get_cmap("jet"), colorbar=True,
     sharex=False, title="prices_scatterplot")
 plt.legend()
