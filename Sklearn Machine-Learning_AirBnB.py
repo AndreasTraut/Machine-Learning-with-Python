@@ -147,6 +147,7 @@ print("\n1.1 Alternative 1: generate id with static data\n")
 myDataset_with_id["index"] = round(myDataset["longitude"],2) * 10000 + myDataset["latitude"]
 train_set, test_set = split_train_test_by_id(myDataset_with_id, 0.2, "index")
 print(myDataset_with_id.head())
+print("train set: {0:7d}\ntest set : {1:7d}".format(len(train_set),len(test_set)))
 
 #%%
 # S.2 Alternative 2: generate stratified sampling
@@ -474,7 +475,7 @@ display_scores(extratree_rmse_scores)
 # =============================================================================
 # # 8. Save Model
 # =============================================================================
-# Requirement: from sklearn.externals import joblib
+# Requirement: import joblib
 print("\n\n8. Save Model\n")
 
 joblib.dump(forest_reg, "forest_reg.pkl")
@@ -595,6 +596,7 @@ print("\n".join('{}' for _ in range(len(my_list))).format(*my_list))
 # =============================================================================
 # # 10. Evaluate final model on test dataset
 # =============================================================================
+# Requirment: from scipy import stats
 print("\n\n 10. Evaluate final model on test dataset\n")
 
 final_model = grid_search.best_estimator_
@@ -617,9 +619,19 @@ squared_errors = (final_predictions - y_test) ** 2
 mean = squared_errors.mean()
 m = len(squared_errors)
 
-# from scipy import stats
+
 print("95% confidence interval: ", 
       np.sqrt(stats.t.interval(confidence, m - 1,
                          loc=np.mean(squared_errors),
                          scale=stats.sem(squared_errors)))
       )
+
+
+
+side_by_side = [(true, pred, (true-pred)/true)
+                for true, pred in
+                zip(list(y_test),
+                    list(final_predictions))]
+print(side_by_side)
+test_set.insert(loc=1, column="final_prediction", value = final_predictions)
+print(test_set)
