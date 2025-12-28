@@ -6,3 +6,10 @@
 .ipynb_checkpoints/Movies Machine Learning - StratifiedSample-checkpoint.ipynb
 .ipynb_checkpoints/Movies Machine Learning - StratifiedSample-checkpoint.ipynb
 .ipynb_checkpoints/Movies Machine Learning - StratifiedSample-checkpoint.ipynb
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
