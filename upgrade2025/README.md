@@ -84,7 +84,9 @@ conda install pandas numpy scikit-learn matplotlib seaborn jupyterlab
 
 ### Mit Docker
 
-Ein Docker-Setup für die Spark-Beispiele finden Sie im Hauptverzeichnis des Repositories. Für die "Small Data" Beispiele in diesem Ordner genügt eine lokale Installation.
+**Hinweis:** Die Beispiele in diesem `/upgrade2025/` Ordner sind für lokale Ausführung optimiert und benötigen kein Docker. 
+
+Ein Docker-Setup für die Spark-Beispiele ("Big Data") finden Sie im Hauptverzeichnis des Repositories. Für die "Small Data" Beispiele in diesem Ordner genügt eine lokale Installation mit Python und den in `requirements.txt` aufgeführten Paketen.
 
 ## 📦 Unterstützte Versionen
 

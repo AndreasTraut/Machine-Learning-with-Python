@@ -75,6 +75,10 @@ warnings.filterwarnings(action="ignore", message="^internal gelsd")
 RANDOM_STATE = 42
 np.random.seed(RANDOM_STATE)
 
+# Feature-Namen für Extra-Features
+REVIEWS_FEATURE = "number_of_reviews"
+REVIEWS_PER_MONTH_FEATURE = "reviews_per_month"
+
 # Pfade
 PROJECT_ROOT = Path(".")
 DATASET_NAME = "AirBnB"
@@ -105,10 +109,16 @@ def save_figure(
     path = IMAGES_PATH / f"{prefix}_{fig_id}.{fig_extension}"
     logger.info(f"Speichere Figur: {path}")
     
-    if tight_layout:
-        plt.tight_layout()
-    
-    plt.savefig(path, format=fig_extension, dpi=resolution)
+    try:
+        if tight_layout:
+            plt.tight_layout()
+        
+        plt.savefig(path, format=fig_extension, dpi=resolution)
+        logger.info(f"Figur erfolgreich gespeichert: {path}")
+    except (IOError, OSError) as e:
+        logger.error(f"Fehler beim Speichern der Figur {path}: {e}")
+    except Exception as e:
+        logger.error(f"Unerwarteter Fehler beim Speichern der Figur: {e}")
 
 
 def load_data(dataset_path: Path = DATASET_PATH) -> pd.DataFrame:
@@ -262,8 +272,8 @@ def add_extra_features(X: np.ndarray, feature_names: list) -> np.ndarray:
     """
     # Finde Indizes der benötigten Features
     try:
-        reviews_idx = feature_names.index("number_of_reviews")
-        reviews_per_month_idx = feature_names.index("reviews_per_month")
+        reviews_idx = feature_names.index(REVIEWS_FEATURE)
+        reviews_per_month_idx = feature_names.index(REVIEWS_PER_MONTH_FEATURE)
         
         # Berechne neues Feature
         reviews_product = X[:, reviews_idx] * X[:, reviews_per_month_idx]
